@@ -10,7 +10,7 @@ CFLAGS = -Wall -Wextra -Werror -Iincludes -g
 
 RM = rm -f
 
-SRCS = src/main.c src/utils.c
+SRCS = src/main.c src/utils.c src/controls.c src/keyboard.c
 
 OBJS = $(SRCS:%.c=%.o)
 
