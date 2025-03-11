@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/11 12:01:21 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:51:04 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,13 @@
 *                           		Structures                                *
 ******************************************************************************/
 
-typedef struct s_lines
-{
-	char 			*line;
-	struct s_lines	*next;
-}	t_lines;
-
-
 typedef struct s_map
 {
 	int			width;
 	int			height;
 	double		pos_x;
 	double		pos_y;
-	t_lines		*lines;
+	char		**lines;
 }	t_map;
 
 typedef struct s_cub
@@ -74,6 +67,5 @@ int		ft_key_press(int keycode, void *params);
 int		ft_close_win(void *params);
 int		ft_print_error(char *msg, char *str, int i);
 int		ft_check_characters(char *str);
-t_lines	*ft_last_line(t_lines *lines);
 
 #endif

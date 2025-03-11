@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/11 11:45:15 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:25:27 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static t_map	*ft_init_map(void) {
 	map = ft_calloc(sizeof(t_map), 1);
 	if (!map)
 		return (NULL);
-	map->lines = NULL;
 	return (map);
 }
 
@@ -64,7 +63,7 @@ int	main(int argc, char **argv)
 	if (ft_check_args(argv[1]))
 		return (ft_print_error("Incorrect file extension:", argv[1], 1));
 	data = ft_init(argv[1]);
-	if (ft_read_file(argv[1], data->map) == -1)
+	if (ft_read_file(argv[1], data->map))
 		return (-1);
 	ft_controls(data);
 	// ft_draw(data);

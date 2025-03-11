@@ -6,53 +6,79 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/11 12:23:23 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:40:42 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static int	ft_check_middle_line(char *str, int len)
+
+static int	ft_check_middle(char *str)
 {
-	int i;
-	int	space;
-	
+	int	i;
+
 	i = 0;
-	space = 1;
-	while (str[i])
-	{
-		if (space && (str[i] != '1' && str[i] != ' '))
-			return (0);
+	while (str[i] == ' ' || str[i] == '\t')
 		i++;
+	if (str[i] != '1')
+		return (-1);
+	while (str[++i])
+	{
+		if (str[i] == '0' && ((str[i + 1] && str[i + 1] == ' ') || i == ft_strlen(str) - 1))
+			return (-1);
 	}
 	return (1);
 }
 
-static int	ft_check_first_last_line(char *str, int len)
+static int	ft_check_top_bottom(char *str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] != '1' && str[i] != ' ')
-			return (0);
-		i++;
+		if (str[i] == '1' || str[i] == ' ' || str[i] == '\t')
+			i++;
+		else
+			return (-1);
 	}
 	return (1);
 }
 
-static int	ft_check_line(char *str, int i, int height)
+static int	ft_check_map(t_map	*map)
 {
-	int len;
+	int	i;
+	char	**lines;
 	
-	len = ft_strlen(str) - 1;
-	if (!ft_check_characters(str))
-		return (0);
-	if (i == 0 || i == height)
-		return (ft_check_first_last_line(str, len));
-	else
-		return (ft_check_middle_line(str, len));	
+	i = 0;
+	lines = map->lines;
+	while (lines[i])
+	{
+		if (i == 0 || i == map->height - 1)
+		{
+			if (ft_check_top_bottom(lines[i]) == -1)
+				return (ft_print_error("Error: fila incorrecta", lines[i], 1));
+		}
+		else
+			if (ft_check_middle(lines[i]) == -1)
+				return (ft_print_error("Error: fila incorrecta ", lines[i], 1));
+		i++;	
+	}
+	return (0);
+}
+
+static int	ft_check_lines(char	**lines)
+{
+	int	i;
+
+	i = 0;
+	while (lines[i])
+	{
+		if (!ft_check_characters(lines[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 static int	ft_height(char *str)
@@ -74,59 +100,47 @@ static int	ft_height(char *str)
 	return (i);
 }
 
-static t_lines	*ft_create_map(int fd, t_lines	**lines)
+static char	**ft_create_map(int fd, int len)
 {
 	char 	*line;
-	t_lines	*tmp;
-	t_lines	*last;
+	char	**lines;
+	int		i;
 	
 	line = get_next_line(fd);
+	lines = malloc(sizeof(char *) * (len + 1));
+	if (!lines)
+		return (NULL);
+	i = 0;
 	while (line)
 	{
-		tmp = malloc(sizeof(t_lines));
-		if (!tmp)
-			return (NULL);
-		tmp->line = line;
-		tmp->next = NULL;
-		if (*lines == NULL)
-			*lines = tmp;
-		else
-		{
-			last = *lines;
-			while (last->next)
-				last = last->next;
-			last->next = tmp;
-		}
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
+		lines[i++] = line;
 		line = get_next_line(fd);	
 	}
-	return (*lines);
+	lines[i] = NULL;
+	return (lines);
 }
 
 int	ft_read_file(char *str, t_map *map)
 {
 	int		fd;
-	int		i;
 	
 	map->height = ft_height(str);
 	fd = open(str, O_RDONLY);
-	map->lines = ft_create_map(fd, &map->lines);
+	map->lines = ft_create_map(fd, map->height);
 	close(fd);
-	i = 0;
-
-	// if (map->lines == NULL)
-	// 	printf("Map->lines: NULL\n");
-	// printf("Número de filas: %i\n", map->height);
-	// while (map->lines)
-	// {
-	// 	printf("%s", map->lines->line);
-	// 	map->lines = map->lines->next;
-	// }
-	
-	while (map->lines)
+	int i = 0;
+	while (map->lines[i])
 	{
-		if (!ft_check_line(map->lines->line, i++, map->height))
-			return (ft_print_error("Incorrect map", NULL, -1));
-		map->lines = map->lines->next;
+		printf("|%s|\n", map->lines[i]);
+		// printf(" - First: %c\n", map->lines[i][0]);
+		// printf(" - Last: %c\n", map->lines[i][ft_strlen(map->lines[i]) - 1]);
+		i++;
 	}
+	if (!ft_check_lines(map->lines))
+		return (ft_print_error("Incorrect characters map", NULL, -1));
+	if (ft_check_map(map))
+		return (1);
 	return (0);
 }
