@@ -6,16 +6,26 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/02/25 11:06:01 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/11 11:45:15 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub.h>
 
+static t_map	*ft_init_map(void) {
+	t_map	*map;
+
+	map = ft_calloc(sizeof(t_map), 1);
+	if (!map)
+		return (NULL);
+	map->lines = NULL;
+	return (map);
+}
+
 static t_cub	*ft_init(char *str)
 {
 	t_cub	*data;
-
+	
 	data = (t_cub *)malloc(sizeof(t_cub));
 	data->title = ft_strjoin("Cub3D - ", str);
 	if (!data)
@@ -31,6 +41,7 @@ static t_cub	*ft_init(char *str)
 		return (ft_print_error("Image error", NULL, 1), NULL);
 	data->data_addr = mlx_get_data_addr(data->img, &data->bpp,
 			&data->size_line, &data->endian);
+	data->map = ft_init_map();
 	return (data);
 }
 
@@ -53,6 +64,9 @@ int	main(int argc, char **argv)
 	if (ft_check_args(argv[1]))
 		return (ft_print_error("Incorrect file extension:", argv[1], 1));
 	data = ft_init(argv[1]);
+	if (ft_read_file(argv[1], data->map) == -1)
+		return (-1);
 	ft_controls(data);
+	// ft_draw(data);
 	mlx_loop(data->mlx);
 }

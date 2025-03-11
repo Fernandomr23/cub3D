@@ -6,11 +6,11 @@ LIBFT = $(LIBRARY_DIR)/libft.a
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes -g
+CFLAGS = -Wall -Wextra -Werror -Iincludes -g3
 
 RM = rm -f
 
-SRCS = src/main.c src/utils.c src/controls.c src/keyboard.c
+SRCS = src/main.c src/utils.c src/controls.c src/keyboard.c src/read_file.c
 
 OBJS = $(SRCS:%.c=%.o)
 
