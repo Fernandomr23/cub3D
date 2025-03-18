@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:00:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/11 16:39:57 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:48:56 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_print_error(char *msg, char *str, int i)
 	return (i);
 }
 
-int	ft_check_characters(char *str)
+int	ft_check_characters(char *str, int *c)
 {
 	int	i;
 
@@ -29,11 +29,15 @@ int	ft_check_characters(char *str)
 	while (str[i])
 	{
 		if (str[i] == '0' || str[i] == '1' || str[i] == 'N'
-			|| str[i] == 'S' || str[i] == 'E' || str[i] == 'W'
-			|| str[i] == ' ' || str[i] >= '\t')
+				|| str[i] == 'S' || str[i] == 'E' || str[i] == 'W'
+				|| str[i] == ' ' || str[i] == '\t')
+		{
+			if ((str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W'))
+				*(c) += 1;
 			i++;
+		}
 		else
-			return (0);
+			return (ft_print_error("Error in line:", str, 0));
 	}
 	return (1);
 }

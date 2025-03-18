@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/11 15:51:04 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:35:33 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ void	ft_controls(t_cub *data);
 int		ft_key_press(int keycode, void *params);
 int		ft_close_win(void *params);
 int		ft_print_error(char *msg, char *str, int i);
-int		ft_check_characters(char *str);
+int		ft_check_characters(char *str, int *c);
 
 #endif
