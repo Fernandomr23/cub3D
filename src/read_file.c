@@ -6,44 +6,11 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/11 16:40:42 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:04:23 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-
-static int	ft_check_middle(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	if (str[i] != '1')
-		return (-1);
-	while (str[++i])
-	{
-		if (str[i] == '0' && ((str[i + 1] && str[i + 1] == ' ') || i == ft_strlen(str) - 1))
-			return (-1);
-	}
-	return (1);
-}
-
-static int	ft_check_top_bottom(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '1' || str[i] == ' ' || str[i] == '\t')
-			i++;
-		else
-			return (-1);
-	}
-	return (1);
-}
 
 static int	ft_check_map(t_map	*map)
 {
@@ -60,7 +27,7 @@ static int	ft_check_map(t_map	*map)
 				return (ft_print_error("Error: fila incorrecta", lines[i], 1));
 		}
 		else
-			if (ft_check_middle(lines[i]) == -1)
+			if (ft_check_middle(lines[i], lines[i + 1]) == -1)
 				return (ft_print_error("Error: fila incorrecta ", lines[i], 1));
 		i++;	
 	}
@@ -70,34 +37,21 @@ static int	ft_check_map(t_map	*map)
 static int	ft_check_lines(char	**lines)
 {
 	int	i;
-
+	int	character;
+	
 	i = 0;
+	character = 0;
 	while (lines[i])
 	{
-		if (!ft_check_characters(lines[i]))
+		if (!ft_check_characters(lines[i], &character))
 			return (0);
 		i++;
 	}
+	if (character == 0)
+		return (ft_print_error("Error: No position for player!", NULL, 0));
+	if (character > 1)
+		return (ft_print_error("Error: Multiple position for player!", NULL, 0));
 	return (1);
-}
-
-static int	ft_height(char *str)
-{
-	char	*line;
-	int		i;
-	int		fd;
-
-	fd = open(str, O_RDONLY); 
-	line = get_next_line(fd);
-	i = 0;
-	while (line)
-	{
-		free(line);
-		line = get_next_line(fd);
-		i++;
-	}
-	free(line);
-	return (i);
 }
 
 static char	**ft_create_map(int fd, int len)
@@ -122,6 +76,26 @@ static char	**ft_create_map(int fd, int len)
 	return (lines);
 }
 
+static int	ft_height(char *str)
+{
+	char	*line;
+	int		i;
+	int		fd;
+
+	fd = open(str, O_RDONLY); 
+	line = get_next_line(fd);
+	i = 0;
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+		i++;
+	}
+	free(line);
+	close(fd);
+	return (i);
+}
+
 int	ft_read_file(char *str, t_map *map)
 {
 	int		fd;
@@ -130,16 +104,16 @@ int	ft_read_file(char *str, t_map *map)
 	fd = open(str, O_RDONLY);
 	map->lines = ft_create_map(fd, map->height);
 	close(fd);
-	int i = 0;
-	while (map->lines[i])
-	{
-		printf("|%s|\n", map->lines[i]);
-		// printf(" - First: %c\n", map->lines[i][0]);
-		// printf(" - Last: %c\n", map->lines[i][ft_strlen(map->lines[i]) - 1]);
-		i++;
-	}
+	// int i = 0;
+	// while (map->lines[i])
+	// {
+	// 	printf("|%s|\n", map->lines[i]);
+	// 	printf(" - First: %c\n", map->lines[i][0]);
+	// 	printf(" - Last: %c\n", map->lines[i][ft_strlen(map->lines[i]) - 1]);
+	// 	i++;
+	// }
 	if (!ft_check_lines(map->lines))
-		return (ft_print_error("Incorrect characters map", NULL, -1));
+		return (-1);
 	if (ft_check_map(map))
 		return (1);
 	return (0);
