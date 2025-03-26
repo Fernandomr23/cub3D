@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/18 16:04:23 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:10:20 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,14 @@ int	ft_read_file(char *str, t_map *map)
 	fd = open(str, O_RDONLY);
 	map->lines = ft_create_map(fd, map->height);
 	close(fd);
-	// int i = 0;
-	// while (map->lines[i])
-	// {
-	// 	printf("|%s|\n", map->lines[i]);
-	// 	printf(" - First: %c\n", map->lines[i][0]);
-	// 	printf(" - Last: %c\n", map->lines[i][ft_strlen(map->lines[i]) - 1]);
-	// 	i++;
-	// }
+	int i = 0;
+	while (map->lines[i])
+	{
+		printf("|%s|\n", map->lines[i]);
+		// printf(" - First: %c\n", map->lines[i][0]);
+		// printf(" - Last: %c\n", map->lines[i][ft_strlen(map->lines[i]) - 1]);
+		i++;
+	}
 	if (!ft_check_lines(map->lines))
 		return (-1);
 	if (ft_check_map(map))

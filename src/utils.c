@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:00:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/18 16:05:05 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:14:02 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ int	ft_check_middle(char *str, char *next)
 		else if (ft_playable(str[i]) && (next[i] && (next[i] == ' ' || next[i] == '\t')))
 			return (-1);
 		else if (i == ft_strlen(str) - 1 && str[i] != '1')
+			return (-1);
+		else if (ft_playable(str[i]) && next[i] == '\0')
+			return (-1);
+		else if (ft_playable(str[i]) && (next[i + 1] && next[i + 1] == ' '))
 			return (-1);
 	}
 	return (1);
