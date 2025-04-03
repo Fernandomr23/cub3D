@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/11 16:25:27 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/04/03 21:41:45 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_map	*ft_init_map(void) {
 static t_cub	*ft_init(char *str)
 {
 	t_cub	*data;
-	
+
 	data = (t_cub *)malloc(sizeof(t_cub));
 	data->title = ft_strjoin("Cub3D - ", str);
 	if (!data)
