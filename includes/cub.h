@@ -6,7 +6,7 @@
 /*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/04/03 22:16:40 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/04/04 12:03:28 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ typedef enum e_direction
 	DIR_N,
 	DIR_S,
 	DIR_E,
-	DIR_W
+	DIR_W,
+	CW,
+	CCW
 }	t_direction;
 
 typedef struct s_player
@@ -63,6 +65,7 @@ typedef struct s_player
 	t_direction	direction;
 	float		x_coord;
 	float		y_coord;
+	float		angle;
 }	t_player;
 
 typedef struct s_cub
@@ -99,8 +102,6 @@ int		ft_close_win(void *params);
 int		ft_print_error(char *msg, char *str, int i);
 
 // Movements
-int		ft_rotate_view(t_cub *cub);
-int		ft_rotate_player(t_cub *cub);
-int		ft_move_player(t_cub *cub);
-
+int		ft_rotate_player(t_cub *cub, t_direction direction);
+int		ft_move_player(t_cub *cub, t_direction direction);
 #endif

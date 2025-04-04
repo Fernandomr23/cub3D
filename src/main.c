@@ -6,7 +6,7 @@
 /*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/04/03 21:41:45 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:41:41 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,25 @@ static t_map	*ft_init_map(void) {
 
 static t_cub	*ft_init(char *str)
 {
-	t_cub	*data;
+	t_cub	*cub;
 
-	data = (t_cub *)malloc(sizeof(t_cub));
-	data->title = ft_strjoin("Cub3D - ", str);
-	if (!data)
+	cub = (t_cub *)malloc(sizeof(t_cub));
+	cub->title = ft_strjoin("Cub3D - ", str);
+	if (!cub)
 		return (ft_print_error("Malloc error", NULL, 1), NULL);
-	data->mlx = mlx_init();
-	if (!data->mlx)
+	cub->mlx = mlx_init();
+	if (!cub->mlx)
 		return (ft_print_error("Connection error", NULL, 1), NULL);
-	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, data->title);
-	if (!data->win)
+	cub->win = mlx_new_window(cub->mlx, WIDTH, HEIGHT, cub->title);
+	if (!cub->win)
 		return (ft_print_error("Window error", NULL, 1), NULL);
-	data->img = mlx_new_image(data->mlx, 1920, 1080);
-	if (!data->img)
+	cub->img = mlx_new_image(cub->mlx, 1920, 1080);
+	if (!cub->img)
 		return (ft_print_error("Image error", NULL, 1), NULL);
-	data->data_addr = mlx_get_data_addr(data->img, &data->bpp,
-			&data->size_line, &data->endian);
-	data->map = ft_init_map();
-	return (data);
+	cub->data_addr = mlx_get_data_addr(cub->img, &cub->bpp,
+			&cub->size_line, &cub->endian);
+	cub->map = ft_init_map();
+	return (cub);
 }
 
 static int	ft_check_args(char *file)
@@ -56,16 +56,16 @@ static int	ft_check_args(char *file)
 
 int	main(int argc, char **argv)
 {
-	t_cub	*data;
+	t_cub	*cub;
 
 	if (argc != 2)
 		return (ft_print_error("Incorrect number of args", NULL, 1));
 	if (ft_check_args(argv[1]))
 		return (ft_print_error("Incorrect file extension:", argv[1], 1));
-	data = ft_init(argv[1]);
-	if (ft_read_file(argv[1], data->map))
+	cub = ft_init(argv[1]);
+	if (ft_read_file(argv[1], cub->map))
 		return (-1);
-	ft_controls(data);
-	// ft_draw(data);
-	mlx_loop(data->mlx);
+	ft_controls(cub);
+	// ft_draw(cub);
+	mlx_loop(cub->mlx);
 }
