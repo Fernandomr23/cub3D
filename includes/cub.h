@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/04/04 12:03:28 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:59:51 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ typedef struct s_player
 	t_direction	direction;
 	float		x_coord;
 	float		y_coord;
-	float		angle;
+	float		theta;
+	float		x_theta;
+	float		y_theta;
 }	t_player;
 
 typedef struct s_cub
