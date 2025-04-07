@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/18 16:06:57 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:59:51 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 # define HEIGHT 1080
 
 # define ESCAPE 65307
+# define KEY_ARROW_L 65361
+# define KEY_ARROW_R 65363
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 100
+# define KEY_D 115
 
 /******************************************************************************
 *                           		Structures                                *
@@ -44,17 +50,38 @@ typedef struct s_map
 	char		**lines;
 }	t_map;
 
+typedef enum e_direction
+{
+	DIR_N,
+	DIR_S,
+	DIR_E,
+	DIR_W,
+	CW,
+	CCW
+}	t_direction;
+
+typedef struct s_player
+{
+	t_direction	direction;
+	float		x_coord;
+	float		y_coord;
+	float		theta;
+	float		x_theta;
+	float		y_theta;
+}	t_player;
+
 typedef struct s_cub
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*title;
-	char	*data_addr;
-	int		bpp;
-	int		size_line;
-	int		endian;
-	t_map	*map;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*title;
+	char		*data_addr;
+	int			bpp;
+	int			size_line;
+	int			endian;
+	t_map		*map;
+	t_player	*player;
 }	t_cub;
 
 /******************************************************************************
@@ -76,4 +103,7 @@ int		ft_key_press(int keycode, void *params);
 int		ft_close_win(void *params);
 int		ft_print_error(char *msg, char *str, int i);
 
+// Movements
+int		ft_rotate_player(t_cub *cub, t_direction direction);
+int		ft_move_player(t_cub *cub, t_direction direction);
 #endif

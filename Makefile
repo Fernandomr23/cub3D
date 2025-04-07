@@ -3,6 +3,7 @@ NAME = cub3D
 LIBRARY_DIR = ./libft
 MLX = ./mlx_linux/libmlx.a
 LIBFT = $(LIBRARY_DIR)/libft.a
+SRC_DIR = src
 
 CC = cc
 
@@ -10,7 +11,12 @@ CFLAGS = -Wall -Wextra -Werror -Iincludes -g3
 
 RM = rm -f
 
-SRCS = src/main.c src/utils.c src/controls.c src/keyboard.c src/read_file.c
+SRCS = $(SRC_DIR)/controls.c
+SRCS += $(SRC_DIR)/keyboard.c
+SRCS += $(SRC_DIR)/main.c
+SRCS += $(SRC_DIR)/movements.c
+SRCS += $(SRC_DIR)/read_file.c
+SRCS += $(SRC_DIR)/utils.c
 
 OBJS = $(SRCS:%.c=%.o)
 
