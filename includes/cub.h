@@ -6,7 +6,7 @@
 /*   By: fvizcaya <fvizcaya@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/04/04 13:59:51 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:46:45 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 # define KEY_S 100
 # define KEY_D 115
 
+# define MOVEMENT_SPEED 
+# define ROTATION_SPEED
+
 /******************************************************************************
 *                           		Structures                                *
 ******************************************************************************/
@@ -65,9 +68,13 @@ typedef struct s_player
 	t_direction	direction;
 	float		x_coord;
 	float		y_coord;
+	float		x_dirrection;
+	float		y_dirrection;
 	float		theta;
 	float		x_theta;
 	float		y_theta;
+	float		x_camera;
+	float		y_camera;
 }	t_player;
 
 typedef struct s_cub
