@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/04/04 13:59:51 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:00:33 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 # define KEY_S 100
 # define KEY_D 115
 
+# define MOVEMENT_SPEED 
+# define ROTATION_SPEED
+
 /******************************************************************************
 *                           		Structures                                *
 ******************************************************************************/
@@ -49,6 +52,27 @@ typedef struct s_map
 	double		pos_y;
 	char		**lines;
 }	t_map;
+
+typedef struct s_ray
+{
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	double	x_dist_lateral;
+	double	y_dist_lateral;
+	double	x_dist;
+	double	y_dist;
+	double	wall_dist;
+	double	wall_x;
+	int		side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+}	t_ray;
 
 typedef enum e_direction
 {
@@ -63,11 +87,17 @@ typedef enum e_direction
 typedef struct s_player
 {
 	t_direction	direction;
-	float		x_coord;
-	float		y_coord;
-	float		theta;
-	float		x_theta;
-	float		y_theta;
+	double		x_coord;
+	double		y_coord;
+	double		x_direction;
+	double		y_direction;
+	double		theta;
+	double		x_theta;
+	double		y_theta;
+	double		x_camera;
+	double		y_camera;
+	double		x_plane;
+	double		y_plane;
 }	t_player;
 
 typedef struct s_cub
@@ -81,7 +111,8 @@ typedef struct s_cub
 	int			size_line;
 	int			endian;
 	t_map		*map;
-	t_player	*player;
+	t_player	player;
+	t_ray		ray;
 }	t_cub;
 
 /******************************************************************************
