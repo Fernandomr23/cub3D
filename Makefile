@@ -14,7 +14,6 @@ RM = rm -f
 SRCS = $(SRC_DIR)/main.c
 SRCS += $(SRC_DIR)/controls.c
 SRCS += $(SRC_DIR)/keyboard.c
-SRCS += $(SRC_DIR)/main.c
 #SRCS += $(SRC_DIR)/movements.c
 SRCS += $(SRC_DIR)/player.c
 SRCS += $(SRC_DIR)/raycasting.c

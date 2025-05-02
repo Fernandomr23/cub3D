@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/02 23:55:15 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/03 00:21:53 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ void ft_print_player(t_player player)
 	printf("Player x direction: %f\n", player.x_direction);
 	printf("Player y direction: %f\n", player.y_direction);
 	printf("Player orientation: %c\n", player.orientation);
-	printf("Player theta: %f\n", player.theta);
-	printf("Player x theta: %f\n", player.x_theta);
-	printf("Player y theta: %f\n", player.y_theta);
-	printf("Player x camera: %f\n", player.x_camera);
-	printf("Player y camera: %f\n", player.y_camera);
 	printf("Player x plane: %f\n", player.x_plane);
 	printf("Player y plane: %f\n", player.y_plane);
 }
@@ -89,7 +84,7 @@ int main(int argc, char **argv)
 	// draw_screen(cub);
 	ft_print_player(cub->player);
 	printf("----------\n");
-	ft_do_raycasting(cub);
+	ft_raycasting(cub);
 	ft_print_player(cub->player);
 	mlx_loop(cub->mlx);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/02 23:40:20 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/03 00:21:35 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,9 @@ typedef struct s_player
 	double		y_coord;
 	double		x_direction;
 	double		y_direction;
-	double		theta;
-	double		x_theta;
-	double		y_theta;
-	double		x_camera;
-	double		y_camera;
 	double		x_plane;
 	double		y_plane;
-	char		  orientation;
+	char		orientation;
 	t_direction	direction;
 }	t_player;
 
@@ -182,8 +177,6 @@ void    ft_texture_update(t_cub *cub, int x);
 
 void    ft_frame_rendering(t_cub *cub);
 void    ft_ray_rendering(t_cub *cub);
-
-#endif
 
 // Draw pixels
 void	draw_screen(t_cub *cub);
