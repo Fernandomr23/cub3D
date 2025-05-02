@@ -6,7 +6,7 @@
 /*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/04/29 21:00:33 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:40:20 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,28 @@ typedef struct s_player
 	double		y_camera;
 	double		x_plane;
 	double		y_plane;
+	int			move;
 }	t_player;
+
+typedef struct s_texture
+{
+	char			*path;
+	char			*north;
+	char			*south;
+	char			*west;
+	char			*east;
+	int				*floor;
+	int				*ceiling;
+	unsigned long	hex_floor;
+	unsigned long	hex_ceiling;
+	int				width;
+	int				height;
+	int				index;
+	double			step;
+	double			pos;
+	int				x;
+	int				y;
+}	t_texture;
 
 typedef struct s_cub
 {
@@ -113,6 +134,9 @@ typedef struct s_cub
 	t_map		*map;
 	t_player	player;
 	t_ray		ray;
+	t_texture	texture;
+	int			**textures;
+	int			**texture_px;
 }	t_cub;
 
 /******************************************************************************
@@ -135,6 +159,28 @@ int		ft_close_win(void *params);
 int		ft_print_error(char *msg, char *str, int i);
 
 // Movements
+
 int		ft_rotate_player(t_cub *cub, t_direction direction);
 int		ft_move_player(t_cub *cub, t_direction direction);
+
+// Raycasting
+
+void    ft_init_rcasting(t_cub *cub, int x);
+void    ft_dda_init(t_cub *cub);
+void    ft_do_raypath(t_cub *cub);
+void    ft_line_height(t_cub *cub);
+int		ft_raycasting(t_cub *cub);
+
+// Textures
+void    ft_texture_init(t_cub *cub);
+void    ft_texture_update(t_cub *cub, int x);
+
+// Rendering
+
+void    ft_frame_rendering(t_cub *cub);
+void    ft_ray_rendering(t_cub *cub);
+
 #endif
+
+
+
