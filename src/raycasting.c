@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 20:06:37 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/05/02 23:55:59 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:55:52 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void    ft_init_rcasting(t_cub *cub, int x)
 	cub->ray.y_dist = fabs(1 / cub->ray.dir_y);
 }
 
-void    ft_set_raypath(t_cub *cub)
+void    ft_dda_init(t_cub *cub)
 {
     if (cub->ray.dir_x < 0)
 	{
@@ -97,7 +97,7 @@ void    ft_line_height(t_cub *cub)
 	cub->ray.wall_x -= floor(cub->ray.wall_x);
 }
 
-int ft_do_raycasting(t_cub *cub)
+int ft_raycasting(t_cub *cub)
 {
     int x;
 
@@ -105,10 +105,11 @@ int ft_do_raycasting(t_cub *cub)
     while (x < WIDTH)
     {
         ft_init_rcasting(cub, x);
-        ft_set_raypath(cub);
+        ft_dda_init(cub);
         ft_do_raypath(cub);
-        ft_line_height(cub);
-        x++;
-    }
-    return (1);
+		ft_line_height(cub);
+//		ft_texture_update(cub, x);
+		x++;
+	}
+	return (1);
 }

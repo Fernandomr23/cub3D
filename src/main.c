@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/02 23:32:39 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:55:15 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ static t_cub *ft_init(char *str)
 	if (!cub->img)
 		return (ft_print_error("Image error", NULL, 1), NULL);
 	cub->data_addr = mlx_get_data_addr(cub->img, &cub->bpp,
-									   &cub->size_line, &cub->endian);
+			&cub->size_line, &cub->endian);
+	/* ft_strlcpy(cub->texture.path, "blues_tone.xpm", ft_strlen("blues_tone.xpm"));
+	cub->img = mlx_xpm_file_to_image(cub->mlx, cub->texture.path,
+			&cub->texture.width, &cub->texture.height); */
 	cub->map = ft_init_map();
 	return (cub);
 }
