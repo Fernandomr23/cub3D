@@ -11,13 +11,15 @@ CFLAGS = -Wall -Wextra -Werror -Iincludes -g3
 
 RM = rm -f
 
-SRCS = $(SRC_DIR)/controls.c
+SRCS = $(SRC_DIR)/main.c
+SRCS += $(SRC_DIR)/controls.c
 SRCS += $(SRC_DIR)/keyboard.c
-SRCS += $(SRC_DIR)/main.c
+SRCS += $(SRC_DIR)/player.c
 SRCS += $(SRC_DIR)/movements.c
 SRCS += $(SRC_DIR)/raycasting.c
 SRCS += $(SRC_DIR)/read_file.c
 SRCS += $(SRC_DIR)/utils.c
+# SRCS += $(SRC_DIR)/draw.c
 
 OBJS = $(SRCS:%.c=%.o)
 

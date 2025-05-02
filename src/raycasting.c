@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 20:06:37 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/04/29 21:08:04 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:55:59 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,16 @@ void    ft_line_height(t_cub *cub)
 
 int ft_do_raycasting(t_cub *cub)
 {
-	int		x;
+    int x;
 
-	x = 0;
-	while (x < WIDTH)
-	{
+    x = 0;
+    while (x < WIDTH)
+    {
         ft_init_rcasting(cub, x);
         ft_set_raypath(cub);
         ft_do_raypath(cub);
-		ft_line_height(cub);
-		// update_texture_pixels(cub, x);
-		x++;
-	}
-	return (1);
+        ft_line_height(cub);
+        x++;
+    }
+    return (1);
 }
