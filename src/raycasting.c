@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 20:06:37 by fvizcaya          #+#    #+#             */
 /*   Updated: 2025/05/02 23:55:52 by fvizcaya         ###   ########.fr       */
@@ -99,11 +99,11 @@ void    ft_line_height(t_cub *cub)
 
 int ft_raycasting(t_cub *cub)
 {
-	int		x;
+    int x;
 
-	x = 0;
-	while (x < WIDTH)
-	{
+    x = 0;
+    while (x < WIDTH)
+    {
         ft_init_rcasting(cub, x);
         ft_dda_init(cub);
         ft_do_raypath(cub);

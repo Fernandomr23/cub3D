@@ -19,17 +19,17 @@ int	ft_key_press(int keycode, void *params)
 	cub = (t_cub *)params;
 	if (keycode == ESCAPE)
 		ft_close_win(cub);
-/* 	if (keycode == KEY_ARROW_L)
-		ft_rotate_player(cub, CW);
-	if (keycode == KEY_ARROW_R)
-		ft_rotate_player(cub, CCW);
-	if (keycode == KEY_W)
-		ft_move_player(cub, DIR_N);
-	if (keycode == KEY_A)
-		ft_move_player(cub, DIR_E);
-	if (keycode == KEY_S)
-		ft_move_player(cub, DIR_S);
-	if (keycode == KEY_D)
-		ft_move_player(cub, DIR_W); */
+	// if (keycode == KEY_ARROW_L)
+	// 	ft_rotate_player(cub, CW);
+	// if (keycode == KEY_ARROW_R)
+	// 	ft_rotate_player(cub, CCW);
+	// if (keycode == KEY_W)
+	// 	ft_move_player(cub, DIR_N);
+	// if (keycode == KEY_A)
+	// 	ft_move_player(cub, DIR_E);
+	// if (keycode == KEY_S)
+	// 	ft_move_player(cub, DIR_S);
+	// if (keycode == KEY_D)
+	// 	ft_move_player(cub, DIR_W);
 	return (0);
 }

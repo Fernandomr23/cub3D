@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
 /*   Updated: 2025/05/02 23:40:20 by fvizcaya         ###   ########.fr       */
@@ -39,6 +39,8 @@
 
 # define MOVEMENT_SPEED 
 # define ROTATION_SPEED
+# define TILE_SIZE 32
+
 
 /******************************************************************************
 *                           		Structures                                *
@@ -46,10 +48,8 @@
 
 typedef struct s_map
 {
-	int			width;
 	int			height;
-	double		pos_x;
-	double		pos_y;
+	int			width;
 	char		**lines;
 }	t_map;
 
@@ -86,7 +86,6 @@ typedef enum e_direction
 
 typedef struct s_player
 {
-	t_direction	direction;
 	double		x_coord;
 	double		y_coord;
 	double		x_direction;
@@ -98,7 +97,8 @@ typedef struct s_player
 	double		y_camera;
 	double		x_plane;
 	double		y_plane;
-	int			move;
+	char		  orientation;
+	t_direction	direction;
 }	t_player;
 
 typedef struct s_texture
@@ -145,11 +145,14 @@ typedef struct s_cub
 
 // Read_file
 
-int		ft_read_file(char *str, t_map *map);
-int		ft_check_characters(char *str, int *c);
-int		ft_check_top_bottom(char *str);
-int		ft_check_middle(char *str, char *next);
-int		ft_playable(char c);
+int			ft_read_file(char *str, t_cub *cub, t_map *map);
+int			ft_check_lines(char	**lines);
+int			ft_check_characters(char *str, int *c);
+int			ft_check_top_bottom(char *str);
+int			ft_check_middle(char *str, char *next);
+int			ft_playable(char c);
+void		ft_init_player(t_player *player);
+void 		ft_find_player(char **lines, t_player *player);
 
 // Minilib
 
@@ -182,5 +185,10 @@ void    ft_ray_rendering(t_cub *cub);
 
 #endif
 
+// Draw pixels
+void	draw_screen(t_cub *cub);
+int		ft_do_raycasting(t_cub *cub);
+void    ft_init_rcasting(t_cub *cub, int x);
 
+#endif
 
