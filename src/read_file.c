@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/04/04 12:41:30 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:31:03 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,6 @@ static int	ft_check_map(t_map	*map)
 	return (0);
 }
 
-static int	ft_check_lines(char	**lines)
-{
-	int	i;
-	int	character;
-
-	i = 0;
-	character = 0;
-	while (lines[i])
-	{
-		if (!ft_check_characters(lines[i], &character))
-			return (0);
-		i++;
-	}
-	if (character == 0)
-		return (ft_print_error("Error: No position for player!", NULL, 0));
-	if (character > 1)
-		return (ft_print_error("Error: Multiple position for player!", NULL, 0));
-	return (1);
-}
-
 static char	**ft_create_map(int fd, int len)
 {
 	char	*line;
@@ -76,6 +56,21 @@ static char	**ft_create_map(int fd, int len)
 	return (lines);
 }
 
+static int ft_width(t_map *map)
+{
+    int max_width = 0;
+    int i = 0;
+
+    while (map->lines[i] != NULL)
+    {
+        int line_length = ft_strlen(map->lines[i]);
+        if (line_length > max_width)
+            max_width = line_length;
+        i++;
+    }
+    return (max_width);
+}
+
 static int	ft_height(char *str)
 {
 	char	*line;
@@ -96,25 +91,32 @@ static int	ft_height(char *str)
 	return (i);
 }
 
-int	ft_read_file(char *str, t_map *map)
+int	ft_read_file(char *str, t_cub *cub, t_map *map)
 {
 	int		fd;
-	int		i;
 
 	map->height = ft_height(str);
 	fd = open(str, O_RDONLY);
 	map->lines = ft_create_map(fd, map->height);
 	close(fd);
-	i = 0;
-	while (map->lines[i])
-	{
-		printf("|%s|\n", map->lines[i]);
-		// printf(" - First: %c\n", map->lines[i][0]);
-		// printf(" - Last: %c\n", map->lines[i][ft_strlen(map->lines[i]) - 1]);
-		i++;
-	}
+	map->width = ft_width(map);
+	// int i = 0;
+	// while (map->lines[i])
+	// {
+	// 	printf("|%s|\n", map->lines[i]);
+	// 	printf(" - First: %c\n", map->lines[i][0]);
+	// 	printf(" - Last: %c\n", map->lines[i][ft_strlen(map->lines[i]) - 1]);
+	// 	i++;
+	// }
 	if (!ft_check_lines(map->lines))
 		return (-1);
+	ft_find_player(map->lines, &cub->player);
+	ft_init_player(&cub->player);
+	// printf("Player: %c\n", cub->player.orientation);
+	// printf("Player x: %f\n", cub->player.x_coord);
+	// printf("Player y: %f\n", cub->player.y_coord);
+	// printf("Player x plane: %f\n", cub->player.x_plane);
+	// printf("Player y plane: %f\n", cub->player.y_plane);
 	if (ft_check_map(map))
 		return (1);
 	return (0);
