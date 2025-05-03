@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 19:04:59 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:51:19 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,17 @@ typedef struct s_player
 
 typedef struct s_texture
 {
+	void			*img;
+	char			*data_addr;
 	char			*path;
-	char			*north;
-	char			*south;
-	char			*west;
-	char			*east;
-	int				*floor;
-	int				*ceiling;
-	unsigned long	hex_floor;
-	unsigned long	hex_ceiling;
 	int				width;
 	int				height;
-	int				index;
-	double			step;
-	double			pos;
-	int				x;
-	int				y;
+	int				bpp;
+	int				size_line;
+	int				endianess;
+	int				text_x;
+	int				text_y;
+	double			wall_x;
 }	t_texture;
 
 typedef struct s_cub

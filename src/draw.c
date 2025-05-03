@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 19:27:01 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 18:43:07 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:55:41 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+#include <stdio.h>
 
 void	ft_put_pixel(t_cub *cub, int x, int y, int color)
 {
@@ -34,6 +35,30 @@ static void ft_draw_line(t_cub *cub, int x, int start, int end, int color)
     {
         ft_put_pixel(cub, x, y, color);
         y++;
+    }
+}
+
+static int  ft_get_color_from_texture(t_texture *texture, int x, int y)
+{
+    char *dst;
+
+    dst = texture->data_addr + (y * texture->size_line + x * (texture->bpp / 8));
+    return *(unsigned int*) dst;
+}
+
+static void ft_load_texture(t_cub *cub)
+{
+    cub->texture.img = mlx_xpm_file_to_image(cub->mlx, "blue_stone.xpm", &cub->texture.width, &cub->texture.height);
+    if (!cub->texture.img)
+    {
+        printf("ERROR loading xpm file to image.\n");
+        return ;
+    }
+    cub->texture.data_addr = mlx_get_data_addr(cub->texture.img, &cub->texture.bpp, &cub->texture.size_line, &cub->texture.endianess);
+    if (!cub->texture.data_addr)
+    {
+        printf("ERROR getting data addresss.\n");
+        return ;
     }
 }
 
@@ -104,18 +129,44 @@ void ft_draw(t_cub *cub, t_ray *ray)
             ray->wall_dist = (ray->map_y - cub->player.y_coord + (1 - ray->step_y) / 2) / ray->dir_y;
         
         ray->line_height = (int)(HEIGHT / ray->wall_dist);
-
         ray->draw_start = -ray->line_height / 2 + HEIGHT / 2;
         if (ray->draw_start < 0)
             ray->draw_start = 0;
         ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
         if (ray->draw_end >= HEIGHT)
             ray->draw_end = HEIGHT - 1;
+        /*
         if (ray->side == 1)
             color = 0xFF0000; // Red for vertical walls
         else
             color = 0x800000; // Green for horizontal walls
         ft_draw_line(cub, x, ray->draw_start, ray->draw_end, color);
+        */
+        ft_load_texture(cub);
+        (void) color;
+        if (!cub->ray.side)
+            cub->texture.wall_x = cub->player.y_coord + cub->ray.wall_dist * cub->ray.dir_y;
+        else
+            cub->texture.wall_x = cub->player.x_coord + cub->ray.wall_dist * cub->ray.dir_x;
+        cub->texture.wall_x -= floor(cub->texture.wall_x);
+        cub->texture.text_x = (int) (cub->texture.wall_x + (double) cub->texture.width);
+        if (!cub->ray.side && cub->ray.dir_x > 0)
+            cub->texture.text_x = cub->texture.width - cub->texture.text_x - 1;
+        if (cub->ray.side && cub->ray.dir_y < 0)
+            cub->texture.text_x = cub->texture.width - cub->texture.text_x - 1;
+        int i = cub->ray.draw_start;
+        int d;
+        while (i < cub->ray.draw_end)
+        {
+            d = i * 256 - HEIGHT * 128 + cub->ray.line_height * 128;
+            cub->texture.text_y = ((d * cub->texture.height) / cub->ray.line_height) / 256;
+            color = ft_get_color_from_texture(&cub->texture, cub->texture.text_x, cub->texture.text_y);
+            i++;
+        }
+        // Ceiling
+        ft_draw_line(cub, x, 0, ray->draw_start - 1, 0x87CEEB);
+        // Floor
+        ft_draw_line(cub, x, ray->draw_end + 1, HEIGHT - 1, 0x8B4513);
         x++;
     }
     mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
