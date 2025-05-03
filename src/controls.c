@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:42:42 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/02 20:12:19 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:59:23 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int	ft_close_win(void *params)
 void	ft_controls(t_cub *data)
 {
 	mlx_hook(data->win, 2, 1L << 0, ft_key_press, data);
+	mlx_hook(data->win, 3, 1L << 1, ft_key_release, data);
 	mlx_hook(data->win, 17, 0, ft_close_win, data);
 }

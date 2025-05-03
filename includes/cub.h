@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 00:21:35 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:04:59 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,16 @@
 # define KEY_ARROW_R 65363
 # define KEY_W 119
 # define KEY_A 97
-# define KEY_S 100
-# define KEY_D 115
+# define KEY_S 115
+# define KEY_D 100
 
-# define MOVEMENT_SPEED 
-# define ROTATION_SPEED
-# define TILE_SIZE 32
+# define MOVEMENT_SPEED 0.1
+# define ROTATION_SPEED 0.1
+
+# define LEFT 1
+# define RIGHT 2
+# define FORWARD 3
+# define BACKWARD 4
 
 
 /******************************************************************************
@@ -62,8 +66,8 @@ typedef struct s_ray
 	int		map_y;
 	int		step_x;
 	int		step_y;
-	double	x_dist_lateral;
-	double	y_dist_lateral;
+	double	delta_dist_x;
+	double	delta_dist_y;
 	double	x_dist;
 	double	y_dist;
 	double	wall_dist;
@@ -74,16 +78,6 @@ typedef struct s_ray
 	int		draw_end;
 }	t_ray;
 
-typedef enum e_direction
-{
-	DIR_N,
-	DIR_S,
-	DIR_E,
-	DIR_W,
-	CW,
-	CCW
-}	t_direction;
-
 typedef struct s_player
 {
 	double		x_coord;
@@ -93,7 +87,6 @@ typedef struct s_player
 	double		x_plane;
 	double		y_plane;
 	char		orientation;
-	t_direction	direction;
 }	t_player;
 
 typedef struct s_texture
@@ -126,6 +119,7 @@ typedef struct s_cub
 	int			bpp;
 	int			size_line;
 	int			endian;
+	int			stop;
 	t_map		*map;
 	t_player	player;
 	t_ray		ray;
@@ -153,13 +147,9 @@ void 		ft_find_player(char **lines, t_player *player);
 
 void	ft_controls(t_cub *data);
 int		ft_key_press(int keycode, void *params);
+int 	ft_key_release(int keycode, void *params);
 int		ft_close_win(void *params);
 int		ft_print_error(char *msg, char *str, int i);
-
-// Movements
-
-int		ft_rotate_player(t_cub *cub, t_direction direction);
-int		ft_move_player(t_cub *cub, t_direction direction);
 
 // Raycasting
 
@@ -179,9 +169,8 @@ void    ft_frame_rendering(t_cub *cub);
 void    ft_ray_rendering(t_cub *cub);
 
 // Draw pixels
-void	draw_screen(t_cub *cub);
-int		ft_do_raycasting(t_cub *cub);
-void    ft_init_rcasting(t_cub *cub, int x);
+void 	ft_draw(t_cub *cub, t_ray *ray);
+
 
 #endif
 
