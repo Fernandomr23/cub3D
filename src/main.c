@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 00:21:53 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:06:39 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@ static t_cub *ft_init(char *str)
 		return (ft_print_error("Image error", NULL, 1), NULL);
 	cub->data_addr = mlx_get_data_addr(cub->img, &cub->bpp,
 			&cub->size_line, &cub->endian);
-	/* ft_strlcpy(cub->texture.path, "blues_tone.xpm", ft_strlen("blues_tone.xpm"));
-	cub->img = mlx_xpm_file_to_image(cub->mlx, cub->texture.path,
-			&cub->texture.width, &cub->texture.height); */
 	cub->map = ft_init_map();
+	cub->stop = 0;
 	return (cub);
 }
 
@@ -58,17 +56,6 @@ static int ft_check_args(char *file)
 	return (0);
 }
 
-void ft_print_player(t_player player)
-{
-	printf("Player x: %f\n", player.x_coord);
-	printf("Player y: %f\n", player.y_coord);
-	printf("Player x direction: %f\n", player.x_direction);
-	printf("Player y direction: %f\n", player.y_direction);
-	printf("Player orientation: %c\n", player.orientation);
-	printf("Player x plane: %f\n", player.x_plane);
-	printf("Player y plane: %f\n", player.y_plane);
-}
-
 int main(int argc, char **argv)
 {
 	t_cub *cub;
@@ -80,11 +67,8 @@ int main(int argc, char **argv)
 	cub = ft_init(argv[1]);
 	if (ft_read_file(argv[1], cub, cub->map))
 		return (-1);
+	ft_draw(cub, &cub->ray);
 	ft_controls(cub);
-	// draw_screen(cub);
-	ft_print_player(cub->player);
-	printf("----------\n");
-	ft_raycasting(cub);
-	ft_print_player(cub->player);
+	// ft_do_raycasting(cub);
 	mlx_loop(cub->mlx);
 }
