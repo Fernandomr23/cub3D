@@ -98,7 +98,7 @@ typedef struct s_texture
 	int				height;
 	int				bpp;
 	int				size_line;
-	int				endianess;
+	int				endian;
 	int				text_x;
 	int				text_y;
 	double			wall_x;

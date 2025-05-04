@@ -13,7 +13,7 @@
 #include "cub.h"
 #include <stdio.h>
 
-void	ft_put_pixel(t_cub *cub, int x, int y, int color)
+static void	ft_put_pixel(t_cub *cub, int x, int y, int color)
 {
 	char	*dst; 
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
@@ -54,7 +54,7 @@ static void ft_load_texture(t_cub *cub)
         printf("ERROR loading xpm file to image.\n");
         return ;
     }
-    cub->texture.data_addr = mlx_get_data_addr(cub->texture.img, &cub->texture.bpp, &cub->texture.size_line, &cub->texture.endianess);
+    cub->texture.data_addr = mlx_get_data_addr(cub->texture.img, &cub->texture.bpp, &cub->texture.size_line, &cub->texture.endian);
     if (!cub->texture.data_addr)
     {
         printf("ERROR getting data addresss.\n");
@@ -68,6 +68,8 @@ void ft_draw(t_cub *cub, t_ray *ray)
     int hit;
     int color;
     
+	ft_memset(&cub->texture, 0, sizeof(t_texture));
+    ft_load_texture(cub);
     x = 0;
     while (x < WIDTH)
     {
@@ -142,14 +144,15 @@ void ft_draw(t_cub *cub, t_ray *ray)
             color = 0x800000; // Green for horizontal walls
         ft_draw_line(cub, x, ray->draw_start, ray->draw_end, color);
         */
-        ft_load_texture(cub);
-        (void) color;
+		printf("Texture image: %p\n", cub->texture.img);
+		printf("Data address: %p\n", cub->texture.data_addr);
+		printf("Bits per pixel: %d, Size line: %d, Endian: %d\n", cub->texture.bpp, cub->texture.size_line, cub->texture.endian);
         if (!cub->ray.side)
             cub->texture.wall_x = cub->player.y_coord + cub->ray.wall_dist * cub->ray.dir_y;
         else
             cub->texture.wall_x = cub->player.x_coord + cub->ray.wall_dist * cub->ray.dir_x;
         cub->texture.wall_x -= floor(cub->texture.wall_x);
-        cub->texture.text_x = (int) (cub->texture.wall_x + (double) cub->texture.width);
+        cub->texture.text_x = (int) (cub->texture.wall_x * cub->texture.width);
         if (!cub->ray.side && cub->ray.dir_x > 0)
             cub->texture.text_x = cub->texture.width - cub->texture.text_x - 1;
         if (cub->ray.side && cub->ray.dir_y < 0)
@@ -161,6 +164,7 @@ void ft_draw(t_cub *cub, t_ray *ray)
             d = i * 256 - HEIGHT * 128 + cub->ray.line_height * 128;
             cub->texture.text_y = ((d * cub->texture.height) / cub->ray.line_height) / 256;
             color = ft_get_color_from_texture(&cub->texture, cub->texture.text_x, cub->texture.text_y);
+			ft_put_pixel(cub, x, i, color);
             i++;
         }
         // Ceiling
