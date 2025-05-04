@@ -13,6 +13,24 @@
 #include "cub.h"
 #include <stdio.h>
 
+static t_orientation	ft_set_texture_index(t_cub *cub)
+{
+	if (!cub->ray.side)
+	{
+    	if (cub->ray.dir_x > 0)
+        	return (NORTH);
+		else 
+        	return (SOUTH);
+    }
+	else 
+	{
+    	if (cub->ray.dir_y > 0)
+        	return (WEST);
+		else
+        	return (EAST);
+    }
+}
+
 static void	ft_put_pixel(t_cub *cub, int x, int y, int color)
 {
 	char	*dst; 
@@ -46,30 +64,47 @@ static int  ft_get_color_from_texture(t_texture *texture, int x, int y)
     return *(unsigned int*) dst;
 }
 
-static void ft_load_texture(t_cub *cub)
+static int ft_load_texture(t_cub *cub)
 {
-    cub->texture.img = mlx_xpm_file_to_image(cub->mlx, "blue_stone.xpm", &cub->texture.width, &cub->texture.height);
-    if (!cub->texture.img)
-    {
-        printf("ERROR loading xpm file to image.\n");
-        return ;
-    }
-    cub->texture.data_addr = mlx_get_data_addr(cub->texture.img, &cub->texture.bpp, &cub->texture.size_line, &cub->texture.endian);
-    if (!cub->texture.data_addr)
-    {
-        printf("ERROR getting data addresss.\n");
-        return ;
-    }
+	int	i;
+
+	// Apaño hasta que se copien las texturas en el parseo
+	cub->texture[0].path = ft_strdup("textures/red_brick.xpm");
+	cub->texture[1].path = ft_strdup("textures/purple_stone.xpm");
+	cub->texture[2].path = ft_strdup("textures/color_stone.xpm");
+	cub->texture[3].path = ft_strdup("textures/grey_stone.xpm");
+	cub->texture[4].path = ft_strdup("textures/netherrack_02.xpm");
+	cub->texture[5].path = ft_strdup("textures/soul_soil.xpm");
+
+	i = 0;
+	while (i < NUM_TEXTURES)
+	{
+    	cub->texture[i].img = mlx_xpm_file_to_image(cub->mlx, cub->texture[i].path, &cub->texture[i].width, &cub->texture[i].height);
+    	if (!cub->texture[i].img)
+   		{
+        	printf("ERROR loading xpm file to image.\n");
+        	return (-1);
+    	}
+    	cub->texture[i].data_addr = mlx_get_data_addr(cub->texture[i].img, &cub->texture[i].bpp, &cub->texture[i].size_line, &cub->texture[i].endian);
+    	if (!cub->texture[i].data_addr)
+    	{
+        	printf("ERROR getting data addresss.\n");
+        	return (-1);
+    	}
+		i++;
+	}
+	return (0);
 }
 
-void ft_draw(t_cub *cub, t_ray *ray)
+int ft_draw(t_cub *cub, t_ray *ray)
 {
-    int x;
-    int hit;
-    int color;
-    
-	ft_memset(&cub->texture, 0, sizeof(t_texture));
-    ft_load_texture(cub);
+    int 			x;
+    int 			hit;
+    int 			color;
+	t_orientation	tx_index;
+
+    if (ft_load_texture(cub) == -1)
+		return (printf("ERROR: fatal. Error loading texture file.\n"), -1);
     x = 0;
     while (x < WIDTH)
     {
@@ -144,34 +179,53 @@ void ft_draw(t_cub *cub, t_ray *ray)
             color = 0x800000; // Green for horizontal walls
         ft_draw_line(cub, x, ray->draw_start, ray->draw_end, color);
         */
-		printf("Texture image: %p\n", cub->texture.img);
-		printf("Data address: %p\n", cub->texture.data_addr);
-		printf("Bits per pixel: %d, Size line: %d, Endian: %d\n", cub->texture.bpp, cub->texture.size_line, cub->texture.endian);
+		tx_index = ft_set_texture_index(cub);
         if (!cub->ray.side)
-            cub->texture.wall_x = cub->player.y_coord + cub->ray.wall_dist * cub->ray.dir_y;
+            cub->texture[tx_index].wall_x = cub->player.y_coord + cub->ray.wall_dist * cub->ray.dir_y;
         else
-            cub->texture.wall_x = cub->player.x_coord + cub->ray.wall_dist * cub->ray.dir_x;
-        cub->texture.wall_x -= floor(cub->texture.wall_x);
-        cub->texture.text_x = (int) (cub->texture.wall_x * cub->texture.width);
+            cub->texture[tx_index].wall_x = cub->player.x_coord + cub->ray.wall_dist * cub->ray.dir_x;
+        cub->texture[tx_index].wall_x -= floor(cub->texture[tx_index].wall_x);
+        cub->texture[tx_index].text_x = (int) (cub->texture[tx_index].wall_x * cub->texture[tx_index].width);
         if (!cub->ray.side && cub->ray.dir_x > 0)
-            cub->texture.text_x = cub->texture.width - cub->texture.text_x - 1;
+            cub->texture[tx_index].text_x = cub->texture[tx_index].width - cub->texture[tx_index].text_x - 1;
         if (cub->ray.side && cub->ray.dir_y < 0)
-            cub->texture.text_x = cub->texture.width - cub->texture.text_x - 1;
+            cub->texture[tx_index].text_x = cub->texture[tx_index].width - cub->texture[tx_index].text_x - 1;
         int i = cub->ray.draw_start;
         int d;
         while (i < cub->ray.draw_end)
         {
             d = i * 256 - HEIGHT * 128 + cub->ray.line_height * 128;
-            cub->texture.text_y = ((d * cub->texture.height) / cub->ray.line_height) / 256;
-            color = ft_get_color_from_texture(&cub->texture, cub->texture.text_x, cub->texture.text_y);
+            cub->texture[tx_index].text_y = ((d * cub->texture[tx_index].height) / cub->ray.line_height) / 256;
+            color = ft_get_color_from_texture(&cub->texture[tx_index], cub->texture[tx_index].text_x, cub->texture[tx_index].text_y);
 			ft_put_pixel(cub, x, i, color);
             i++;
         }
         // Ceiling
         ft_draw_line(cub, x, 0, ray->draw_start - 1, 0x87CEEB);
-        // Floor
-        ft_draw_line(cub, x, ray->draw_end + 1, HEIGHT - 1, 0x8B4513);
+        // CEILING
+        // ft_draw_line(cub, x, ray->draw_end + 1, HEIGHT - 1, 0x8B4513);
+		// Ceiling
+		i = 0;
+		while (i < cub->ray.draw_start)
+		{
+			cub->texture[CEILING].text_x = (int)(x * cub->texture[CEILING].width / WIDTH);
+			cub->texture[CEILING].text_y = (int)(i * cub->texture[CEILING].height / HEIGHT);
+			color = ft_get_color_from_texture(&cub->texture[CEILING], cub->texture[CEILING].text_x, cub->texture[CEILING].text_y);
+			ft_put_pixel(cub, x, i, color);
+			i++;
+		}
+		// CEILING
+		i = cub->ray.draw_end;
+		while (i < HEIGHT)
+		{
+			cub->texture[FLOOR].text_x = (int)(x * cub->texture[FLOOR].width / WIDTH);
+			cub->texture[FLOOR].text_y = (int)(i * cub->texture[FLOOR].height / HEIGHT);
+			color = ft_get_color_from_texture(&cub->texture[FLOOR], cub->texture[FLOOR].text_x, cub->texture[FLOOR].text_y);
+			ft_put_pixel(cub, x, i, color);
+			i++;
+		}
         x++;
     }
     mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
+	return(0);
 }

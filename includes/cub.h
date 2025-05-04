@@ -29,6 +29,7 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 
+# define NUM_TEXTURES 6
 # define ESCAPE 65307
 # define KEY_ARROW_L 65361
 # define KEY_ARROW_R 65363
@@ -50,6 +51,15 @@
 *                           		Structures                                *
 ******************************************************************************/
 
+typedef	enum	s_orientation
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST,
+	CEILING,
+	FLOOR
+}				t_orientation;
 typedef struct s_map
 {
 	int			height;
@@ -118,7 +128,7 @@ typedef struct s_cub
 	t_map		*map;
 	t_player	player;
 	t_ray		ray;
-	t_texture	texture;
+	t_texture	texture[NUM_TEXTURES];
 	int			**textures;
 	int			**texture_px;
 }	t_cub;
@@ -164,7 +174,7 @@ void    ft_frame_rendering(t_cub *cub);
 void    ft_ray_rendering(t_cub *cub);
 
 // Draw pixels
-void 	ft_draw(t_cub *cub, t_ray *ray);
+int 	ft_draw(t_cub *cub, t_ray *ray);
 
 
 #endif
