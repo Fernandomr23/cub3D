@@ -129,8 +129,6 @@ typedef struct s_cub
 	t_player	player;
 	t_ray		ray;
 	t_texture	texture[NUM_TEXTURES];
-	int			**textures;
-	int			**texture_px;
 }	t_cub;
 
 /******************************************************************************
@@ -158,11 +156,15 @@ int		ft_print_error(char *msg, char *str, int i);
 
 // Raycasting
 
+void	ft_raycasting(t_cub *cub, int *x);
+
+/*
 void    ft_init_rcasting(t_cub *cub, int x);
 void    ft_dda_init(t_cub *cub);
 void    ft_do_raypath(t_cub *cub);
 void    ft_line_height(t_cub *cub);
 int		ft_raycasting(t_cub *cub);
+*/
 
 // Textures
 void    ft_texture_init(t_cub *cub);
@@ -174,8 +176,13 @@ void    ft_frame_rendering(t_cub *cub);
 void    ft_ray_rendering(t_cub *cub);
 
 // Draw pixels
-int 	ft_draw(t_cub *cub, t_ray *ray);
+int 	ft_draw(t_cub *cub);
 
+// Textures
+
+int 			ft_load_texture(t_cub *cub);
+t_orientation	ft_set_texture_index(t_cub *cub);
+int				ft_get_color_from_texture(t_texture *texture, int x, int y);
 
 #endif
 

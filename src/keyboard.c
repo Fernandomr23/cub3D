@@ -104,7 +104,7 @@ int	ft_key_press(int keycode, void *params)
 
 		mlx_destroy_image(cub->mlx, cub->img);
 		cub->img = mlx_new_image(cub->mlx, WIDTH, HEIGHT);
-		if (ft_draw(cub, &cub->ray) == -1)
+		if (ft_draw(cub) == -1)
 			return(printf("ERROR: Rendering.\n"), -1);
 	}
 	return (0);

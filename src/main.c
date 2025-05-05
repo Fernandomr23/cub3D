@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 	cub = ft_init(argv[1]);
 	if (ft_read_file(argv[1], cub, cub->map))
 		return (-1);
-	ft_draw(cub, &cub->ray);
+	ft_draw(cub);
 	ft_controls(cub);
 	// ft_do_raycasting(cub);
 	mlx_loop(cub->mlx);
