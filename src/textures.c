@@ -5,80 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 19:38:38 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/05/02 23:45:52 by fvizcaya         ###   ########.fr       */
+/*   Created: 2025/05/03 19:41:29 by fvizcaya          #+#    #+#             */
+/*   Updated: 2025/05/03 20:32:36 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub.h>
+#include "../includes/cub.h"
 
-void    ft_texture_init(t_cub *cub)
+int ft_load_texture(t_cub *cub)
 {
-    int	i;
+	t_texture	*tex;
+	int			i;
 
-	if (cub->texture_px)
-		// liberar cosas
-        ;
-	cub->texture_px = ft_calloc(HEIGHT + 1,
-			sizeof * cub->texture_px);
-	if (!cub->texture_px)
-        // rutina de salida
-        ;
+	tex = cub->texture;
+	// Apaño hasta que se copien las texturas en el parseo
+	tex[0].path = ft_strdup("textures/red_brick.xpm");
+	tex[1].path = ft_strdup("textures/purple_stone.xpm");
+	tex[2].path = ft_strdup("textures/color_stone.xpm");
+	tex[3].path = ft_strdup("textures/grey_stone.xpm");
+	tex[4].path = ft_strdup("textures/netherrack_02.xpm");
+	tex[5].path = ft_strdup("textures/soul_soil.xpm");
+
 	i = 0;
-	while (i < HEIGHT)
+	while (i < NUM_TEXTURES)
 	{
-		cub->texture_px[i] = ft_calloc(WIDTH + 1,
-				sizeof * cub->texture_px);
-		if (!cub->texture_px[i])
-            // rutina de salida
-            ;
+		tex[i].img = mlx_xpm_file_to_image(cub->mlx, \
+			tex[i].path, &tex[i].width, &tex[i].height);
+		if (!tex[i].img)
+			return (printf("ERROR loading xpm file to image.\n"), -1);
+		tex[i].data_addr = mlx_get_data_addr(tex[i].img, \
+			&tex[i].bpp, &tex[i].size_line, &tex[i].endian);
+		if (!tex[i].data_addr)
+			return (printf("ERROR getting data addresss.\n"), -1);
 		i++;
 	}
+	return (0);
 }
 
-static void ft_texture_index(t_cub *cub)
+t_orientation	ft_set_texture_index(t_cub *cub)
 {
-    if (!cub->ray.side)
-    {
-        if (cub->ray.dir_x < 0)
-			cub->texture.index = DIR_W;
+	if (!cub->ray.side)
+	{
+		if (cub->ray.dir_x > 0)
+			return (NORTH);
+		else 
+			return (SOUTH);
+	}
+	else 
+	{
+		if (cub->ray.dir_y > 0)
+			return (WEST);
 		else
-			cub->texture.index = DIR_E;
-    }
-    else
-    {
-        if (cub->ray.dir_y > 0)
-			cub->texture.index = DIR_S;
-		else
-			cub->texture.index = DIR_N;
-    }
+			return (EAST);
+	}
 }
-
-void    ft_texture_update(t_cub *cub, int x)
+inline int	ft_get_color_from_texture(t_texture *texture, int x, int y)
 {
-    int         y;
-    int         color;
-    t_texture   textr;
+	char *px;
 
-    textr = cub->texture;
-    ft_texture_index(cub);
-    textr.x = cub->ray.wall_x * textr.width;
-    if ((!cub->ray.side && cub->ray.dir_x < 0) || 
-        (cub->ray.side && cub->ray.dir_y > 0))
-        textr.x = textr.width;
-    textr.step = 1.0 * textr.width / cub->ray.line_height;
-    textr.pos = (cub->ray.draw_start - HEIGHT / 2 +
-        cub->ray.line_height / 2) * textr.step;
-    y = cub->ray.draw_start;
-    while (y < cub->ray.draw_start)
-    {
-        textr.y = (int)textr.pos & (textr.width -1);
-        textr.pos = textr.step;
-        color = cub->textures[textr.index][textr.width * textr.y + textr.x];
-        if (textr.index == DIR_N || textr.index == DIR_E)
-            color = (color >> 1) & 8355711;
-        if (color > 0)
-            cub->texture_px[y][x] = color;
-        y++;
-    } 
+	px = texture->data_addr + \
+		(y * texture->size_line + x * (texture->bpp / 8));
+	return *(unsigned int*) px;
 }
+
+

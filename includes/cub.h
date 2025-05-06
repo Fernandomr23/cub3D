@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 19:04:59 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:51:19 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 
+# define NUM_TEXTURES 6
 # define ESCAPE 65307
 # define KEY_ARROW_L 65361
 # define KEY_ARROW_R 65363
@@ -50,6 +51,15 @@
 *                           		Structures                                *
 ******************************************************************************/
 
+typedef	enum	s_orientation
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST,
+	CEILING,
+	FLOOR
+}				t_orientation;
 typedef struct s_map
 {
 	int			height;
@@ -91,22 +101,17 @@ typedef struct s_player
 
 typedef struct s_texture
 {
+	void			*img;
+	char			*data_addr;
 	char			*path;
-	char			*north;
-	char			*south;
-	char			*west;
-	char			*east;
-	int				*floor;
-	int				*ceiling;
-	unsigned long	hex_floor;
-	unsigned long	hex_ceiling;
 	int				width;
 	int				height;
-	int				index;
-	double			step;
-	double			pos;
-	int				x;
-	int				y;
+	int				bpp;
+	int				size_line;
+	int				endian;
+	int				text_x;
+	int				text_y;
+	double			wall_x;
 }	t_texture;
 
 typedef struct s_cub
@@ -123,9 +128,7 @@ typedef struct s_cub
 	t_map		*map;
 	t_player	player;
 	t_ray		ray;
-	t_texture	texture;
-	int			**textures;
-	int			**texture_px;
+	t_texture	texture[NUM_TEXTURES];
 }	t_cub;
 
 /******************************************************************************
@@ -153,11 +156,15 @@ int		ft_print_error(char *msg, char *str, int i);
 
 // Raycasting
 
+void	ft_raycasting(t_cub *cub, int *x);
+
+/*
 void    ft_init_rcasting(t_cub *cub, int x);
 void    ft_dda_init(t_cub *cub);
 void    ft_do_raypath(t_cub *cub);
 void    ft_line_height(t_cub *cub);
 int		ft_raycasting(t_cub *cub);
+*/
 
 // Textures
 void    ft_texture_init(t_cub *cub);
@@ -169,8 +176,13 @@ void    ft_frame_rendering(t_cub *cub);
 void    ft_ray_rendering(t_cub *cub);
 
 // Draw pixels
-void 	ft_draw(t_cub *cub, t_ray *ray);
+int 	ft_draw(t_cub *cub);
 
+// Textures
+
+int 			ft_load_texture(t_cub *cub);
+t_orientation	ft_set_texture_index(t_cub *cub);
+int				ft_get_color_from_texture(t_texture *texture, int x, int y);
 
 #endif
 
