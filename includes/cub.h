@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 16:43:48 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:12:02 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@
 # define KEY_D 100
 
 # define MOVEMENT_SPEED 0.1
-# define ROTATION_SPEED 0.05
+# define ROTATION_SPEED 0.1
 
 # define LEFT 1
 # define RIGHT 2
 # define FORWARD 3
 # define BACKWARD 4
+
+# define MINIMAP_CELL_SIZE 15
 
 
 /******************************************************************************
@@ -134,7 +136,6 @@ typedef struct s_cub
 	int			bpp;
 	int			size_line;
 	int			endian;
-	int			stop;
 	t_map		*map;
 	t_player	player;
 	t_ray		ray;
@@ -188,6 +189,7 @@ void    ft_ray_rendering(t_cub *cub);
 
 // Draw pixels
 int 	ft_draw(t_cub *cub);
+void	ft_put_pixel(t_cub *cub, int x, int y, int color);
 int		ft_update_player(t_cub *cub);
 void	ft_move_player(t_cub *cub, int direction);
 void 	ft_rotate_player(t_cub *cub, int direction);
@@ -198,5 +200,8 @@ int 			ft_load_texture(t_cub *cub);
 t_orientation	ft_set_texture_index(t_cub *cub);
 int				ft_get_color_from_texture(t_texture *texture, int x, int y);
 
-#endif
+// Bonus
 
+void ft_minimap(t_cub *cub);
+
+#endif

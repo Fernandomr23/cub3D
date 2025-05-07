@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 21:56:25 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/05/06 17:13:33 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:15:15 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	ft_raycasting(t_cub *cub, int *x)
 			cub->ray.map_y += cub->ray.step_y;
 			cub->ray.side = 1;
 		}
-
 		if (cub->map->lines[cub->ray.map_y][cub->ray.map_x] == '1')
 			hit = 1;
 	}

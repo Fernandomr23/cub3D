@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 19:27:01 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 16:40:55 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:30:10 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_update_player(t_cub *cub)
 	return (0);
 }
 
-static inline void	ft_put_pixel(t_cub *cub, int x, int y, int color)
+void	ft_put_pixel(t_cub *cub, int x, int y, int color)
 {
 	char	*dst; 
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
@@ -83,6 +83,11 @@ static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
 		y++;
 	}
 	y = cub->ray.draw_end;
+	if (y < 0)
+		y = 0;
+	else if (y >= HEIGHT)
+		cub->ray.draw_end = HEIGHT;
+	// printf("y: %d\n", y);
 	while (y < HEIGHT)
 	{
 		tex[FLOOR].text_x = (int)(x * tex[FLOOR].width / WIDTH);
@@ -92,6 +97,7 @@ static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
 		ft_put_pixel(cub, x, y, color);
 		y++;
 	}
+	// printf("y: %d\n", y);
 }
 
 int ft_draw(t_cub *cub)
@@ -110,6 +116,7 @@ int ft_draw(t_cub *cub)
 		ft_draw_ceiling_and_floor(cub, x);
         x++;
     }
+	ft_minimap(cub);
 	ft_update_player(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
 	return(0);
