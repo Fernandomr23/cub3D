@@ -6,11 +6,22 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:41:29 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/05/07 16:14:35 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:42:00 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
+
+int ft_store_texture(t_cub *cub, char *file)
+{
+	(void)cub;
+	printf("Linea -----> %s\n", file);
+	// Comprobar si es textura o color
+	// Comprobar la orientación de la textura
+	// Limpiar el string y quedarse a partir del ./
+	// Comprobar si existe la textura
+	return (0);
+}
 
 int ft_load_texture(t_cub *cub)
 {

@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 17:05:02 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:23:44 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static t_cub *ft_init(char *str)
 	cub->data_addr = mlx_get_data_addr(cub->img, &cub->bpp,
 			&cub->size_line, &cub->endian);
 	cub->map = ft_init_map();
-	cub->stop = 0;
 	return (cub);
 }
 
@@ -66,7 +65,7 @@ int main(int argc, char **argv)
 		return (ft_print_error("Incorrect file extension:", argv[1], 1));
 	cub = ft_init(argv[1]);
 	if (ft_read_file(argv[1], cub, cub->map))
-		return (-1);
+		return (1);
 	ft_controls(cub);
 	mlx_loop_hook(cub->mlx, ft_draw, cub);
 	mlx_loop(cub->mlx);

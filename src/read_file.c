@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 17:10:31 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:38:09 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,40 @@ static int	ft_check_map(t_map	*map)
 	return (0);
 }
 
-static char	**ft_create_map(int fd, int len)
+static int	ft_create_map(t_cub *cub, int fd, int len, int in_map)
 {
+
 	char	*line;
-	char	**lines;
 	int		i;
 
+	cub->map->lines = malloc(sizeof(char *) * (len + 1));
+	if (!cub->map->lines)
+		return (ft_print_error("Error: malloc", NULL, 1));
 	line = get_next_line(fd);
-	lines = malloc(sizeof(char *) * (len + 1));
-	if (!lines)
-		return (NULL);
 	i = 0;
 	while (line)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		lines[i++] = line;
+		if (in_map == 0 && ft_map_line(line))
+			in_map = 1;
+		if (in_map)
+			cub->map->lines[i++] = line;
+		else
+		{
+			if (ft_store_texture(cub, line) == -1)
+			{
+				return (ft_print_error("Error: invalid texture", line, 1));
+			}
+			free(line);
+		}
 		line = get_next_line(fd);
 	}
-	lines[i] = NULL;
-	return (lines);
+	cub->map->lines[i] = NULL;
+	return (0);
 }
 
-static int ft_width(t_map *map)
+static int ft_map_width(t_map *map)
 {
     int max_width = 0;
     int i = 0;
@@ -71,7 +82,7 @@ static int ft_width(t_map *map)
     return (max_width);
 }
 
-static int	ft_height(char *str)
+static int	ft_map_height(char *str)
 {
 	char	*line;
 	int		i;
@@ -82,9 +93,10 @@ static int	ft_height(char *str)
 	i = 0;
 	while (line)
 	{
+		if (ft_map_line(line))
+			i++;
 		free(line);
 		line = get_next_line(fd);
-		i++;
 	}
 	free(line);
 	close(fd);
@@ -95,11 +107,13 @@ int	ft_read_file(char *str, t_cub *cub, t_map *map)
 {
 	int		fd;
 
-	map->height = ft_height(str);
 	fd = open(str, O_RDONLY);
-	map->lines = ft_create_map(fd, map->height);
+	if (fd < 0)
+		return (ft_print_error("Error opening file", str, 1));
+	map->height = ft_map_height(str);
+	ft_create_map(cub, fd, map->height, 0);
+	map->width = ft_map_width(map);
 	close(fd);
-	map->width = ft_width(map);
 	if (!ft_check_lines(map->lines))
 		return (-1);
 	ft_find_player(map->lines, &cub->player);

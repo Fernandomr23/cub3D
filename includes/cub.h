@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 18:12:02 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:22:09 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ typedef struct s_cub
 
 int			ft_read_file(char *str, t_cub *cub, t_map *map);
 int			ft_check_lines(char	**lines);
+int			ft_map_line(char *str);
 int			ft_check_characters(char *str, int *c);
 int			ft_check_top_bottom(char *str);
 int			ft_check_middle(char *str, char *next);
@@ -181,6 +182,7 @@ int		ft_raycasting(t_cub *cub);
 // Textures
 void    ft_texture_init(t_cub *cub);
 void    ft_texture_update(t_cub *cub, int x);
+int		ft_store_texture(t_cub *cub, char *file);
 
 // Rendering
 

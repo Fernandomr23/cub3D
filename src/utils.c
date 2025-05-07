@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:00:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/03/26 19:14:02 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:33:20 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@ int	ft_print_error(char *msg, char *str, int i)
 	return (i);
 }
 
+int	ft_map_line(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '1')
+			return (1);
+		else if (str[i] == ' ' || str[i] == '\t')
+			i++;
+		else
+			return (0);
+	}
+	return (0);
+}
+
 int	ft_check_characters(char *str, int *c)
 {
 	int	i;
@@ -33,11 +50,11 @@ int	ft_check_characters(char *str, int *c)
 				|| str[i] == ' ' || str[i] == '\t')
 		{
 			if ((str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W'))
-				*(c) += 1;
+					*(c) += 1;
 			i++;
 		}
 		else
-			return (ft_print_error("Error in line:", str, 0));
+			return (0);
 	}
 	return (1);
 }
