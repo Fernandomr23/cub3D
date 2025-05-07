@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/02 23:31:03 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:21:28 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,24 +100,11 @@ int	ft_read_file(char *str, t_cub *cub, t_map *map)
 	map->lines = ft_create_map(fd, map->height);
 	close(fd);
 	map->width = ft_width(map);
-	// int i = 0;
-	// while (map->lines[i])
-	// {
-	// 	printf("|%s|\n", map->lines[i]);
-	// 	printf(" - First: %c\n", map->lines[i][0]);
-	// 	printf(" - Last: %c\n", map->lines[i][ft_strlen(map->lines[i]) - 1]);
-	// 	i++;
-	// }
 	if (!ft_check_lines(map->lines))
 		return (-1);
 	ft_find_player(map->lines, &cub->player);
 	ft_init_player(&cub->player);
-	// printf("Player: %c\n", cub->player.orientation);
-	// printf("Player x: %f\n", cub->player.x_coord);
-	// printf("Player y: %f\n", cub->player.y_coord);
-	// printf("Player x plane: %f\n", cub->player.x_plane);
-	// printf("Player y plane: %f\n", cub->player.y_plane);
 	if (ft_check_map(map))
 		return (1);
 	return (0);
-}
+} 

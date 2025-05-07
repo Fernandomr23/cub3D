@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:41:29 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/05/03 20:32:36 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:14:35 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int ft_load_texture(t_cub *cub)
 
 	tex = cub->texture;
 	// Apaño hasta que se copien las texturas en el parseo
-	tex[0].path = ft_strdup("textures/red_brick.xpm");
-	tex[1].path = ft_strdup("textures/purple_stone.xpm");
-	tex[2].path = ft_strdup("textures/color_stone.xpm");
-	tex[3].path = ft_strdup("textures/grey_stone.xpm");
-	tex[4].path = ft_strdup("textures/netherrack_02.xpm");
-	tex[5].path = ft_strdup("textures/soul_soil.xpm");
+	tex[0].path = ft_strdup("textures/bookshelf_01.xpm");
+	tex[1].path = ft_strdup("textures/bookshelf_02.xpm");
+	tex[2].path = ft_strdup("textures/bookshelf_03.xpm");
+	tex[3].path = ft_strdup("textures/bookshelf.xpm");
+	tex[4].path = ft_strdup("textures/basalt_top.xpm");
+	tex[5].path = ft_strdup("textures/netherrack.xpm");
 
 	i = 0;
 	while (i < NUM_TEXTURES)
@@ -63,6 +63,8 @@ inline int	ft_get_color_from_texture(t_texture *texture, int x, int y)
 {
 	char *px;
 
+	if (x < 0 || x >= texture->width || y < 0 || y >= texture->height)
+		return 0x000000;
 	px = texture->data_addr + \
 		(y * texture->size_line + x * (texture->bpp / 8));
 	return *(unsigned int*) px;

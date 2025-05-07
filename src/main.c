@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 19:06:39 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:40:47 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ int main(int argc, char **argv)
 	cub = ft_init(argv[1]);
 	if (ft_read_file(argv[1], cub, cub->map))
 		return (-1);
-	ft_draw(cub);
 	ft_controls(cub);
-	// ft_do_raycasting(cub);
+	mlx_loop_hook(cub->mlx, ft_draw, cub);
 	mlx_loop(cub->mlx);
 }

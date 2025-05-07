@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 20:51:19 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:43:48 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define KEY_D 100
 
 # define MOVEMENT_SPEED 0.1
-# define ROTATION_SPEED 0.1
+# define ROTATION_SPEED 0.05
 
 # define LEFT 1
 # define RIGHT 2
@@ -51,7 +51,17 @@
 *                           		Structures                                *
 ******************************************************************************/
 
-typedef	enum	s_orientation
+typedef struct s_keys
+{
+	int		left;
+	int		right;
+	int		forward;
+	int		backward;
+	int		rotate_left;
+	int		rotate_right;
+}	t_keys;
+
+typedef	enum	e_orientation
 {
 	NORTH,
 	SOUTH,
@@ -129,6 +139,7 @@ typedef struct s_cub
 	t_player	player;
 	t_ray		ray;
 	t_texture	texture[NUM_TEXTURES];
+	t_keys		keys;
 }	t_cub;
 
 /******************************************************************************
@@ -177,6 +188,9 @@ void    ft_ray_rendering(t_cub *cub);
 
 // Draw pixels
 int 	ft_draw(t_cub *cub);
+int		ft_update_player(t_cub *cub);
+void	ft_move_player(t_cub *cub, int direction);
+void 	ft_rotate_player(t_cub *cub, int direction);
 
 // Textures
 
