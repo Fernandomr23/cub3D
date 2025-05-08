@@ -6,35 +6,19 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 19:27:01 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 18:16:42 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:18:08 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int	ft_update_player(t_cub *cub)
-{
-	if (cub->keys.forward)
-		ft_move_player(cub, FORWARD);
-	if (cub->keys.backward)
-		ft_move_player(cub, BACKWARD);
-	if (cub->keys.left)
-		ft_move_player(cub, LEFT);
-	if (cub->keys.right)
-		ft_move_player(cub, RIGHT);
-	if (cub->keys.rotate_left)
-		ft_rotate_player(cub, LEFT);
-	if (cub->keys.rotate_right)
-		ft_rotate_player(cub, RIGHT);
-	return (0);
-}
-
 void	ft_put_pixel(t_cub *cub, int x, int y, int color)
 {
-	char	*dst; 
+	char	*dst;
+
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
 		return ;
-    dst = cub->data_addr + (y * cub->size_line + x * (cub->bpp / 8));
+	dst = cub->data_addr + (y * cub->size_line + x * (cub->bpp / 8));
 	*(unsigned int *)dst = color;
 }
 
@@ -65,6 +49,18 @@ static void	ft_draw_walls(t_cub *cub, t_orientation index, int x)
 	}
 }
 
+static int	ft_ray_draw_end(t_cub *cub)
+{
+	int	y;
+
+	if (cub->ray.draw_start < 0)
+		cub->ray.draw_start = 0;
+	if (cub->ray.draw_end >= HEIGHT)
+		cub->ray.draw_end = HEIGHT;
+	y = cub->ray.draw_end;
+	return (y);
+}
+
 static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
 {
 	int			y;
@@ -82,11 +78,7 @@ static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
 		ft_put_pixel(cub, x, y, color);
 		y++;
 	}
-	y = cub->ray.draw_end;
-	if (y < 0)
-		y = 0;
-	else if (y >= HEIGHT)
-		cub->ray.draw_end = HEIGHT;
+	y = ft_ray_draw_end(cub);
 	while (y < HEIGHT)
 	{
 		tex[FLOOR].text_x = (int)(x * tex[FLOOR].width / WIDTH);
@@ -98,24 +90,24 @@ static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
 	}
 }
 
-int ft_draw(t_cub *cub)
+int	ft_draw(t_cub *cub)
 {
-    int 			x;
+	int				x;
 	t_orientation	tx_index;
 
-    if (ft_load_texture(cub) == -1)
+	if (ft_load_texture(cub) == -1)
 		return (printf("ERROR: fatal. Error loading texture file.\n"), -1);
-    x = 0;
-    while (x < WIDTH)
-    {
-        ft_raycasting(cub, &x);
+	x = 0;
+	while (x < WIDTH)
+	{
+		ft_raycasting(cub, &x);
 		tx_index = ft_set_texture_index(cub);
 		ft_draw_walls(cub, tx_index, x);
 		ft_draw_ceiling_and_floor(cub, x);
-        x++;
-    }
+		x++;
+	}
 	ft_minimap(cub);
 	ft_update_player(cub);
-    mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
-	return(0);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
+	return (0);
 }

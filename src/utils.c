@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:00:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 20:41:29 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:20:38 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@ int	ft_check_characters(char *str, int *c)
 	while (str[i])
 	{
 		if (str[i] == '0' || str[i] == '1' || str[i] == 'N'
-				|| str[i] == 'S' || str[i] == 'E' || str[i] == 'W'
-				|| str[i] == ' ' || str[i] == '\t')
+			|| str[i] == 'S' || str[i] == 'E' || str[i] == 'W'
+			|| str[i] == ' ' || str[i] == '\t')
 		{
-			if ((str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W'))
-					*(c) += 1;
+			if ((str[i] == 'N' || str[i] == 'S'
+					|| str[i] == 'E' || str[i] == 'W'))
+				*(c) += 1;
 			i++;
 		}
 		else
@@ -66,25 +67,25 @@ int	ft_playable(char c)
 	return (0);
 }
 
-static int ft_calculate_len(char *str)
+static int	ft_calculate_len(char *str, int *i)
 {
-	int len;
-	
+	int	len;
+
 	len = ft_strlen(str);
 	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t'))
 		len--;
+	while (str[(*i)] == ' ' || str[(*i)] == '\t')
+		(*i)++;
 	return (len);
 }
 
 int	ft_check_middle(char *str, char *next, char *prev)
 {
 	int	i;
-	int len;
-	
-	len = ft_calculate_len(str);
+	int	len;
+
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
+	len = ft_calculate_len(str, &i);
 	if (str[i] != '1')
 		return (-1);
 	while (i < len)
@@ -102,7 +103,6 @@ int	ft_check_middle(char *str, char *next, char *prev)
 			break ;
 		i++;
 	}
-
 	if (str[len - 1] != '1')
 		return (-1);
 	return (1);

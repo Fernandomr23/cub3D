@@ -6,15 +6,15 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 20:23:44 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 23:19:10 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub.h>
 
-static t_map *ft_init_map(void)
+static t_map	*ft_init_map(void)
 {
-	t_map *map;
+	t_map	*map;
 
 	map = ft_calloc(sizeof(t_map), 1);
 	if (!map)
@@ -22,9 +22,9 @@ static t_map *ft_init_map(void)
 	return (map);
 }
 
-static t_cub *ft_init(char *str)
+static t_cub	*ft_init(char *str)
 {
-	t_cub *cub;
+	t_cub	*cub;
 
 	cub = (t_cub *)malloc(sizeof(t_cub));
 	cub->title = ft_strjoin("Cub3D - ", str);
@@ -45,9 +45,9 @@ static t_cub *ft_init(char *str)
 	return (cub);
 }
 
-static int ft_check_args(char *file)
+static int	ft_check_args(char *file)
 {
-	int len;
+	int	len;
 
 	len = ft_strlen(file);
 	if (ft_strncmp(file + (len - 4), ".cub", 4) || len <= 4)
@@ -55,9 +55,9 @@ static int ft_check_args(char *file)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_cub *cub;
+	t_cub	*cub;
 
 	if (argc != 2)
 		return (ft_print_error("Incorrect number of args", NULL, 1));

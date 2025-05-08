@@ -6,13 +6,13 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:42:42 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 20:06:03 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 22:20:37 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static int	ft_walkable(t_map *map, double x, double y)
+static int	is_walkable(t_map *map, double x, double y)
 {
 	if (map->lines[(int)y][(int)x] != '0')
 		return (0);
@@ -63,9 +63,9 @@ void	ft_move_player(t_cub *cub, int direction)
 		new_x = cub->player.x_coord + cub->player.x_direction * move_speed * dir;
 		new_y = cub->player.y_coord + cub->player.y_direction * move_speed * dir;
 
-		if (ft_walkable(cub->map, new_x, cub->player.y_coord))
+		if (is_walkable(cub->map, new_x, cub->player.y_coord))
 			cub->player.x_coord = new_x;
-		if (ft_walkable(cub->map, cub->player.x_coord, new_y))
+		if (is_walkable(cub->map, cub->player.x_coord, new_y))
 			cub->player.y_coord = new_y;
 	}
 	else if (direction == LEFT || direction == RIGHT)
@@ -74,9 +74,9 @@ void	ft_move_player(t_cub *cub, int direction)
 		new_x = cub->player.x_coord + cub->player.x_plane * move_speed * dir;
 		new_y = cub->player.y_coord + cub->player.y_plane * move_speed * dir;
 
-		if (ft_walkable(cub->map, new_x, cub->player.y_coord))
+		if (is_walkable(cub->map, new_x, cub->player.y_coord))
 			cub->player.x_coord = new_x;
-		if (ft_walkable(cub->map, cub->player.x_coord, new_y))
+		if (is_walkable(cub->map, cub->player.x_coord, new_y))
 			cub->player.y_coord = new_y;
 	}
 }
