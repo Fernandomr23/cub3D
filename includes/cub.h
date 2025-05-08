@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 20:03:50 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 20:31:01 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int			ft_check_lines(char	**lines);
 int			ft_map_line(char *str);
 int			ft_check_characters(char *str, int *c);
 int			ft_check_top_bottom(char *str);
-int			ft_check_middle(char *str, char *next);
+int			ft_check_middle(char *str, char *next, char *prev);
 int			ft_playable(char c);
 void		ft_init_player(t_player *player);
 void 		ft_find_player(char **lines, t_player *player);

@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 20:38:09 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 20:29:14 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_check_map(t_map	*map)
 				return (ft_print_error("Error: fila incorrecta", lines[i], 1));
 		}
 		else
-			if (ft_check_middle(lines[i], lines[i + 1]) == -1)
+			if (ft_check_middle(lines[i], lines[i + 1], lines[i - 1]) == -1)
 				return (ft_print_error("Error: fila incorrecta ", lines[i], 1));
 		i++;
 	}
