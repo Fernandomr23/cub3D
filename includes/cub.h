@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 20:22:09 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 20:03:50 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 
 # define MOVEMENT_SPEED 0.1
 # define ROTATION_SPEED 0.1
+# define COLLISION_RADIUS 0.2
 
 # define LEFT 1
 # define RIGHT 2

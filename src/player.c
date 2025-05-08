@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 22:56:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 20:34:29 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 20:02:20 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void ft_find_player(char **lines, t_player *player)
 				|| lines[i][j] == 'E' || lines[i][j] == 'W')
 				{
 					player->orientation = lines[i][j];
-					player->x_coord = j;
-					player->y_coord = i;
+					player->x_coord = j + 0.5;
+					player->y_coord = i + 0.5;
 					lines[i][j] = '0';
 					return ;
 				}
