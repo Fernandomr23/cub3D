@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 20:38:09 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 20:54:43 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_check_map(t_map	*map)
 				return (ft_print_error("Error: fila incorrecta", lines[i], 1));
 		}
 		else
-			if (ft_check_middle(lines[i], lines[i + 1]) == -1)
+			if (ft_check_middle(lines[i], lines[i + 1], lines[i - 1]) == -1)
 				return (ft_print_error("Error: fila incorrecta ", lines[i], 1));
 		i++;
 	}
@@ -36,7 +36,6 @@ static int	ft_check_map(t_map	*map)
 
 static int	ft_create_map(t_cub *cub, int fd, int len, int in_map)
 {
-
 	char	*line;
 	int		i;
 
@@ -56,10 +55,7 @@ static int	ft_create_map(t_cub *cub, int fd, int len, int in_map)
 		else
 		{
 			if (ft_store_texture(cub, line) == -1)
-			{
 				return (ft_print_error("Error: invalid texture", line, 1));
-			}
-			free(line);
 		}
 		line = get_next_line(fd);
 	}
@@ -67,19 +63,22 @@ static int	ft_create_map(t_cub *cub, int fd, int len, int in_map)
 	return (0);
 }
 
-static int ft_map_width(t_map *map)
+static int	ft_map_width(t_map *map)
 {
-    int max_width = 0;
-    int i = 0;
+	int	max_width;
+	int	i;
+	int	line_length;
 
-    while (map->lines[i] != NULL)
-    {
-        int line_length = ft_strlen(map->lines[i]);
-        if (line_length > max_width)
-            max_width = line_length;
-        i++;
-    }
-    return (max_width);
+	max_width = 0;
+	i = 0;
+	while (map->lines[i] != NULL)
+	{
+		line_length = ft_strlen(map->lines[i]);
+		if (line_length > max_width)
+			max_width = line_length;
+		i++;
+	}
+	return (max_width);
 }
 
 static int	ft_map_height(char *str)
@@ -121,4 +120,4 @@ int	ft_read_file(char *str, t_cub *cub, t_map *map)
 	if (ft_check_map(map))
 		return (1);
 	return (0);
-} 
+}

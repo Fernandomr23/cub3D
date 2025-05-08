@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keycodeboard.c                                         :+:      :+:    :+:   */
+/*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:56:16 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/04/03 21:46:10 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:32:13 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int ft_key_release(int keycode, void *params)
+int	ft_key_release(int keycode, void *params)
 {
 	t_cub	*cub;
 

@@ -121,6 +121,6 @@ int ft_draw(t_cub *cub)
     }
 	ft_minimap(cub);
 	ft_update_player(cub);
-    mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
+  mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
 	return(0);
 }

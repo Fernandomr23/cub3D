@@ -6,7 +6,7 @@
 /*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:00:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 21:31:15 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:20:38 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@ int	ft_check_characters(char *str, int *c)
 	while (str[i])
 	{
 		if (str[i] == '0' || str[i] == '1' || str[i] == 'N'
-				|| str[i] == 'S' || str[i] == 'E' || str[i] == 'W'
-				|| str[i] == ' ' || str[i] == '\t')
+			|| str[i] == 'S' || str[i] == 'E' || str[i] == 'W'
+			|| str[i] == ' ' || str[i] == '\t')
 		{
-			if ((str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W'))
-					*(c) += 1;
+			if ((str[i] == 'N' || str[i] == 'S'
+					|| str[i] == 'E' || str[i] == 'W'))
+				*(c) += 1;
 			i++;
 		}
 		else
@@ -66,28 +67,44 @@ int	ft_playable(char c)
 	return (0);
 }
 
-int	ft_check_middle(char *str, char *next)
+static int	ft_calculate_len(char *str, int *i)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t'))
+		len--;
+	while (str[(*i)] == ' ' || str[(*i)] == '\t')
+		(*i)++;
+	return (len);
+}
+
+int	ft_check_middle(char *str, char *next, char *prev)
 {
 	int	i;
+	int	len;
 
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
+	len = ft_calculate_len(str, &i);
 	if (str[i] != '1')
 		return (-1);
-	while (str[++i])
+	while (i < len)
 	{
-		if (ft_playable(str[i]) && ((str[i + 1] && str[i + 1] == ' ') || i == ft_strlen(str) - 1))
-			return (-1);
-		else if (ft_playable(str[i]) && (next[i] && (next[i] == ' ' || next[i] == '\t')))
-			return (-1);
-		else if (i == ft_strlen(str) - 1 && str[i] != '1')
-			return (-1);
-		else if (ft_playable(str[i]) && next[i] == '\0')
-			return (-1);
-		else if (ft_playable(str[i]) && (next[i + 1] && next[i + 1] == ' '))
-			return (-1);
+		if (ft_playable(str[i]))
+		{
+			if (str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '\0')
+				return (-1);
+			if (!next[i] || next[i] == ' ' || next[i] == '\t')
+				return (-1);
+			if (!prev[i] || prev[i] == ' ' || prev[i] == '\t')
+				return (-1);
+		}
+		else if (str[i] == '\0')
+			break ;
+		i++;
 	}
+	if (str[len - 1] != '1')
+		return (-1);
 	return (1);
 }
 
