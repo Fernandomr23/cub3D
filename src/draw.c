@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 19:27:01 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/07 18:16:42 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:37:20 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	ft_update_player(t_cub *cub)
 
 void	ft_put_pixel(t_cub *cub, int x, int y, int color)
 {
-	char	*dst; 
+	char	*dst;
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
 		return ;
-    dst = cub->data_addr + (y * cub->size_line + x * (cub->bpp / 8));
+	dst = cub->data_addr + (y * cub->size_line + x * (cub->bpp / 8));
 	*(unsigned int *)dst = color;
 }
 
@@ -65,10 +65,10 @@ static void	ft_draw_walls(t_cub *cub, t_orientation index, int x)
 	}
 }
 
-static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
+
+static void	ft_draw_ceiling(t_cub *cub, int x)
 {
 	int			y;
-	int			color;
 	t_texture	*tex;
 
 	tex = cub->texture;
@@ -77,11 +77,17 @@ static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
 	{
 		tex[CEILING].text_x = (int)(x * tex[CEILING].width / WIDTH);
 		tex[CEILING].text_y = (int)(y * tex[CEILING].height / HEIGHT);
-		color = ft_get_color_from_texture(&tex[CEILING], \
-				tex[CEILING].text_x, tex[CEILING].text_y);
-		ft_put_pixel(cub, x, y, color);
+		ft_put_pixel(cub, x, y, cub->cell_color);
 		y++;
 	}
+}
+
+static void	ft_draw_floor(t_cub *cub, int x)
+{
+	int			y;
+	t_texture	*tex;
+
+	tex = cub->texture;
 	y = cub->ray.draw_end;
 	if (y < 0)
 		y = 0;
@@ -91,9 +97,7 @@ static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
 	{
 		tex[FLOOR].text_x = (int)(x * tex[FLOOR].width / WIDTH);
 		tex[FLOOR].text_y = (int)(y * tex[FLOOR].height / HEIGHT);
-		color = ft_get_color_from_texture(&tex[FLOOR], \
-				tex[FLOOR].text_x, tex[FLOOR].text_y);
-		ft_put_pixel(cub, x, y, color);
+		ft_put_pixel(cub, x, y, cub->floor_color);
 		y++;
 	}
 }
@@ -111,7 +115,8 @@ int ft_draw(t_cub *cub)
         ft_raycasting(cub, &x);
 		tx_index = ft_set_texture_index(cub);
 		ft_draw_walls(cub, tx_index, x);
-		ft_draw_ceiling_and_floor(cub, x);
+		ft_draw_ceiling(cub, x);
+		ft_draw_floor(cub, x);
         x++;
     }
 	ft_minimap(cub);

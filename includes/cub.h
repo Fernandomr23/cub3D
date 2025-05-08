@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 20:03:50 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:35:31 by fvizcaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ typedef struct s_cub
 	int			bpp;
 	int			size_line;
 	int			endian;
+	int			cell_color;
+	int			floor_color;
 	t_map		*map;
 	t_player	player;
 	t_ray		ray;
@@ -159,6 +161,8 @@ int			ft_check_middle(char *str, char *next);
 int			ft_playable(char c);
 void		ft_init_player(t_player *player);
 void 		ft_find_player(char **lines, t_player *player);
+void		ft_free(void **ptr);
+
 
 // Minilib
 
@@ -180,11 +184,6 @@ void    ft_line_height(t_cub *cub);
 int		ft_raycasting(t_cub *cub);
 */
 
-// Textures
-void    ft_texture_init(t_cub *cub);
-void    ft_texture_update(t_cub *cub, int x);
-int		ft_store_texture(t_cub *cub, char *file);
-
 // Rendering
 
 void    ft_frame_rendering(t_cub *cub);
@@ -202,6 +201,7 @@ void 	ft_rotate_player(t_cub *cub, int direction);
 int 			ft_load_texture(t_cub *cub);
 t_orientation	ft_set_texture_index(t_cub *cub);
 int				ft_get_color_from_texture(t_texture *texture, int x, int y);
+int				ft_store_texture(t_cub *cub, char *file);
 
 // Bonus
 
