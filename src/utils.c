@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:00:33 by fmorenil          #+#    #+#             */
 /*   Updated: 2025/05/08 21:20:38 by fmorenil         ###   ########.fr       */
@@ -121,4 +121,21 @@ int	ft_check_top_bottom(char *str)
 			return (-1);
 	}
 	return (1);
+}
+
+void	ft_free(void **ptr)
+{
+	char	**aux_ptr;
+	int		i;
+
+	aux_ptr = (char **) ptr;
+	if (!ptr)
+		return ;
+	i = 0;
+	while (aux_ptr[i])
+	{
+		free(aux_ptr[i]);
+		i++;
+	}
+	free(ptr);
 }
