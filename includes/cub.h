@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 20:51:19 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:22:09 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,24 @@
 # define FORWARD 3
 # define BACKWARD 4
 
+# define MINIMAP_CELL_SIZE 15
+
 
 /******************************************************************************
 *                           		Structures                                *
 ******************************************************************************/
 
-typedef	enum	s_orientation
+typedef struct s_keys
+{
+	int		left;
+	int		right;
+	int		forward;
+	int		backward;
+	int		rotate_left;
+	int		rotate_right;
+}	t_keys;
+
+typedef	enum	e_orientation
 {
 	NORTH,
 	SOUTH,
@@ -124,11 +136,11 @@ typedef struct s_cub
 	int			bpp;
 	int			size_line;
 	int			endian;
-	int			stop;
 	t_map		*map;
 	t_player	player;
 	t_ray		ray;
 	t_texture	texture[NUM_TEXTURES];
+	t_keys		keys;
 }	t_cub;
 
 /******************************************************************************
@@ -139,6 +151,7 @@ typedef struct s_cub
 
 int			ft_read_file(char *str, t_cub *cub, t_map *map);
 int			ft_check_lines(char	**lines);
+int			ft_map_line(char *str);
 int			ft_check_characters(char *str, int *c);
 int			ft_check_top_bottom(char *str);
 int			ft_check_middle(char *str, char *next);
@@ -169,6 +182,7 @@ int		ft_raycasting(t_cub *cub);
 // Textures
 void    ft_texture_init(t_cub *cub);
 void    ft_texture_update(t_cub *cub, int x);
+int		ft_store_texture(t_cub *cub, char *file);
 
 // Rendering
 
@@ -177,6 +191,10 @@ void    ft_ray_rendering(t_cub *cub);
 
 // Draw pixels
 int 	ft_draw(t_cub *cub);
+void	ft_put_pixel(t_cub *cub, int x, int y, int color);
+int		ft_update_player(t_cub *cub);
+void	ft_move_player(t_cub *cub, int direction);
+void 	ft_rotate_player(t_cub *cub, int direction);
 
 // Textures
 
@@ -184,5 +202,8 @@ int 			ft_load_texture(t_cub *cub);
 t_orientation	ft_set_texture_index(t_cub *cub);
 int				ft_get_color_from_texture(t_texture *texture, int x, int y);
 
-#endif
+// Bonus
 
+void ft_minimap(t_cub *cub);
+
+#endif

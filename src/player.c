@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 22:56:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 18:09:12 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:34:29 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void ft_find_player(char **lines, t_player *player)
 					player->orientation = lines[i][j];
 					player->x_coord = j;
 					player->y_coord = i;
+					lines[i][j] = '0';
 					return ;
 				}
 			j++;
@@ -61,23 +62,23 @@ void    ft_init_player(t_player *player)
 {
 	if (player->orientation == 'N')
 	{
-		player->x_direction = -1;
-		player->y_direction = 0;
+		player->x_direction = 0;
+		player->y_direction = -1;
 	}
 	else if (player->orientation == 'S')
-	{
-		player->x_direction = 1;
-		player->y_direction = 0;
-	}
-	else if (player->orientation == 'E')
 	{
 		player->x_direction = 0;
 		player->y_direction = 1;
 	}
+	else if (player->orientation == 'E')
+	{
+		player->x_direction = 1;
+		player->y_direction = 0;
+	}
 	else if (player->orientation == 'W')
 	{
-		player->x_direction = 0;
-		player->y_direction = -1;
+		player->x_direction = -1;
+		player->y_direction = 0;
 	}
 	player->x_plane = -player->y_direction * 0.66;
 	player->y_plane = player->x_direction * 0.66;

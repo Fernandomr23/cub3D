@@ -20,9 +20,7 @@ SRCS += $(SRC_DIR)/raycasting.c
 SRCS += $(SRC_DIR)/read_file.c
 SRCS += $(SRC_DIR)/textures.c
 SRCS += $(SRC_DIR)/utils.c
-
-#SRCS += $(SRC_DIR)/movements.c
-# SRCS += $(SRC_DIR)/rendering_frame.c
+SRCS += $(SRC_DIR)/minimap.c
 
 OBJS = $(SRCS:%.c=%.o)
 

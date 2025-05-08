@@ -3,16 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 19:27:01 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/03 20:55:41 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:16:42 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static inline void	ft_put_pixel(t_cub *cub, int x, int y, int color)
+int	ft_update_player(t_cub *cub)
+{
+	if (cub->keys.forward)
+		ft_move_player(cub, FORWARD);
+	if (cub->keys.backward)
+		ft_move_player(cub, BACKWARD);
+	if (cub->keys.left)
+		ft_move_player(cub, LEFT);
+	if (cub->keys.right)
+		ft_move_player(cub, RIGHT);
+	if (cub->keys.rotate_left)
+		ft_rotate_player(cub, LEFT);
+	if (cub->keys.rotate_right)
+		ft_rotate_player(cub, RIGHT);
+	return (0);
+}
+
+void	ft_put_pixel(t_cub *cub, int x, int y, int color)
 {
 	char	*dst; 
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
@@ -66,6 +83,10 @@ static void	ft_draw_ceiling_and_floor(t_cub *cub, int x)
 		y++;
 	}
 	y = cub->ray.draw_end;
+	if (y < 0)
+		y = 0;
+	else if (y >= HEIGHT)
+		cub->ray.draw_end = HEIGHT;
 	while (y < HEIGHT)
 	{
 		tex[FLOOR].text_x = (int)(x * tex[FLOOR].width / WIDTH);
@@ -93,6 +114,8 @@ int ft_draw(t_cub *cub)
 		ft_draw_ceiling_and_floor(cub, x);
         x++;
     }
+	ft_minimap(cub);
+	ft_update_player(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
 	return(0);
 }
