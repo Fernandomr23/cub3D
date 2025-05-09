@@ -6,11 +6,48 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 23:19:10 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:44:40 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub.h>
+
+static void	ft_free_cub(t_cub *cub)
+{
+	int	i;
+
+	i = 0;
+	if (cub->map)
+	{
+		while (cub->map->lines[i])
+		{
+			free(cub->map->lines[i]);
+			i++;
+		}
+		free(cub->map->lines);
+		free(cub->map);
+	}
+	i = 0;
+	
+	while (i < 4)
+	{
+		if (cub->texture[i].img)
+			mlx_destroy_image(cub->mlx, cub->texture[i].img);
+		if (cub->texture[i].path)
+			free(cub->texture[i].path);
+		i++;
+	}
+
+	if (cub->img)
+		mlx_destroy_image(cub->mlx, cub->img);
+	if (cub->win)
+		mlx_destroy_window(cub->mlx, cub->win);
+	if (cub->mlx)
+		free(cub->mlx);
+	if (cub->title)
+		free(cub->title);
+	free(cub);
+}
 
 static t_map	*ft_init_map(void)
 {
@@ -65,7 +102,11 @@ int	main(int argc, char **argv)
 		return (ft_print_error("Incorrect file extension:", argv[1], 1));
 	cub = ft_init(argv[1]);
 	if (ft_read_file(argv[1], cub, cub->map))
+	{
+		printf("LIBERATION\n");
+		ft_free_cub(cub);
 		return (1);
+	}
 	ft_controls(cub);
 	mlx_loop_hook(cub->mlx, ft_draw, cub);
 	mlx_loop(cub->mlx);

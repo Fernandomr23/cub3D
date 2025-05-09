@@ -6,13 +6,13 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:41:29 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/05/09 19:06:14 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/09 21:27:17 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-static char ft_separation_char(char *str, int *index)
+static char	ft_separation_char(char *str, int *index)
 {
 	int	i;
 
@@ -27,6 +27,40 @@ static char ft_separation_char(char *str, int *index)
 	return (' ');
 }
 
+static int	ft_convert_color(char **splt, int *rgb, int i)
+{
+	int		j;
+	char	*trim;
+
+	j = 0;
+	while (j < 3)
+	{
+		trim = ft_strtrim(splt[i + j], " ");
+		if (!trim)
+		{
+			ft_free((void **) splt);
+			return (-1);
+		}
+		rgb[j] = ft_atoi(trim);
+		free(trim);
+		j++;
+	}
+	return (0);
+}
+
+static void	ft_remove_letter(char **str)
+{
+	int	i;
+
+	i = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] == 'C' || (*str)[i] == 'F')
+			(*str)[i] = ' ';
+		i++;
+	}
+}
+
 int	ft_parse_color(char *str)
 {
 	char	**splt;
@@ -36,16 +70,18 @@ int	ft_parse_color(char *str)
 
 	i = 0;
 	c = ft_separation_char(str, &i);
-	printf("str: %s\n", str);
-
+	if (c == ',')
+		ft_remove_letter(&str);
 	splt = ft_split(str, c);
 	if (!splt || !splt[0] || !splt[1] || !splt[2])
+	{
+		ft_free((void **) splt);
 		return (-1);
-	printf("%s %s %s\n", splt[0], splt[1], splt[2]);
-	rgb[0] = ft_atoi(ft_strtrim(splt[0], " "));
-	rgb[1] = ft_atoi(ft_strtrim(splt[1], " "));
-	rgb[2] = ft_atoi(ft_strtrim(splt[2], " "));
-	ft_free((void *) splt);
+	}
+	printf("[0]%s [1]%s [2]%s\n", splt[i], splt[i + 1], splt[i + 2]);
+	if (ft_convert_color(splt, rgb, i) == -1)
+		return (-1);
+	ft_free((void **) splt);
 	return (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
 }
 
@@ -54,8 +90,11 @@ static void	ft_parse_textures(char *str, t_cub *cub)
 	char	**splt;
 
 	splt = ft_split(str, ' ');
-	if ((*str && *str == '\n') || !splt)
+	if ((*str && *str == '\n') || !splt || !splt[0] || !splt[1])
+	{
+		ft_free((void **) splt);
 		return ;
+	}
 	if (!ft_strncmp(splt[0], "C", ft_strlen(splt[0])))
 		cub->cell_color = ft_parse_color(str);
 	else if (!ft_strncmp(splt[0], "F", ft_strlen(splt[0])))
@@ -68,7 +107,7 @@ static void	ft_parse_textures(char *str, t_cub *cub)
 		cub->texture[WEST].path = ft_strdup(splt[1]);
 	else if (!ft_strncmp(splt[0], "EA", ft_strlen(splt[0])))
 		cub->texture[EAST].path = ft_strdup(splt[1]);
-	ft_free((void *)splt);
+	ft_free((void **)splt);
 }
 
 static int	ft_only_spaces(char *str)
@@ -87,20 +126,15 @@ static int	ft_only_spaces(char *str)
 
 int	ft_store_texture(t_cub *cub, char *file)
 {
-	printf("file: %s\n", file);
 	if (!file)
 		return (-1);
-	if (ft_only_spaces(file))
-	{
-		free(file);
-		return (0);
-	}
-	ft_parse_textures(file, cub);
+	if (!ft_only_spaces(file))
+		ft_parse_textures(file, cub);
 	return (0);
 }
 
 
-int ft_load_texture(t_cub *cub)
+int	ft_load_texture(t_cub *cub)
 {
 	t_texture	*tex;
 	int			i;
@@ -141,7 +175,7 @@ t_orientation	ft_set_texture_index(t_cub *cub)
 }
 inline int	ft_get_color_from_texture(t_texture *texture, int x, int y)
 {
-	char *px;
+	char	*px;
 
 	if (x < 0 || x >= texture->width || y < 0 || y >= texture->height)
 		return (0);

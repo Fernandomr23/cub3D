@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:42:42 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 22:20:37 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:41:06 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,26 @@ void	ft_move_player(t_cub *cub, int direction)
 int	ft_close_win(void *params)
 {
 	t_cub	*data;
+	int		i;
 
 	data = (t_cub *)params;
-	mlx_destroy_image(data->mlx, data->img);
-	mlx_destroy_window(data->mlx, data->win);
+	if (data->img)
+		mlx_destroy_image(data->mlx, data->img);
+	i = 0;
+	while (i < 4)
+	{
+		if (data->texture[i].img)
+			mlx_destroy_image(data->mlx, data->texture[i].img);
+		if (data->texture[i].path)
+			free(data->texture[i].path);
+		i++;
+	}
+	if (data->win)
+		mlx_destroy_window(data->mlx, data->win);
 	free(data->title);
 	free(data->mlx);
 	free(data);
+
 	exit(0);
 }
 

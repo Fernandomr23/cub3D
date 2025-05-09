@@ -1,10 +1,16 @@
 
-NO textures/bookshelf_01.xpm
-SO textures/bookshelf_02.xpm
-WE textures/bookshelf_03.xpm
-EA textures/bookshelf.xpm
-C 173, 216,230   
-F 33,204  ,   14
+NO textures/netherrack_01.xpm
+SO textures/netherrack_02.xpm
+WE textures/netherrack.xpm
+EA textures/netherrack.xpm
+
+
+
+
+C 120,125,125  
+F 110,250,200
+
+
 111111111111111
 100000000000001
 101111101111101
@@ -17,5 +23,5 @@ F 33,204  ,   14
 1011111011111011111     
 10000010000000000001                
 1011101110111011111     
- 1   1000100N0000001         
-    111111111111111  
+1100010000000001         
+111111111111111  
