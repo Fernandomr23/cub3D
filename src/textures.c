@@ -3,86 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:41:29 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/05/08 22:29:19 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:06:14 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
+static char ft_separation_char(char *str, int *index)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			return (',');
+		i++;
+	}
+	(*index)++;
+	return (' ');
+}
+
 int	ft_parse_color(char *str)
 {
 	char	**splt;
+	char	c;
+	int		i;
 	int		rgb[3];
 
-	splt = ft_split(str, ',');
-	if (!splt)
+	i = 0;
+	c = ft_separation_char(str, &i);
+	printf("str: %s\n", str);
+
+	splt = ft_split(str, c);
+	if (!splt || !splt[0] || !splt[1] || !splt[2])
 		return (-1);
-	printf("%s %s %s\n", splt[1], splt[2], splt[3]);
-	rgb[0] = ft_atoi(ft_strtrim(splt[1], " "));
-	rgb[1] = ft_atoi(ft_strtrim(splt[2], " "));
-	rgb[2] = ft_atoi(ft_strtrim(splt[3], " "));
+	printf("%s %s %s\n", splt[0], splt[1], splt[2]);
+	rgb[0] = ft_atoi(ft_strtrim(splt[0], " "));
+	rgb[1] = ft_atoi(ft_strtrim(splt[1], " "));
+	rgb[2] = ft_atoi(ft_strtrim(splt[2], " "));
 	ft_free((void *) splt);
-	return (rgb[0] << 16 | rgb[1] << 8 | rgb[0]);
+	return (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
 }
 
-t_orientation	ft_parse_textures(char *str)
+static void	ft_parse_textures(char *str, t_cub *cub)
 {
 	char	**splt;
 
-	printf("Antes de split\n");
 	splt = ft_split(str, ' ');
-	if (*str && *str == '\n')
-		return (-1);
-	if (!splt)
-		return (-1);
-	printf("Despues de split\n");
+	if ((*str && *str == '\n') || !splt)
+		return ;
 	if (!ft_strncmp(splt[0], "C", ft_strlen(splt[0])))
-		return (CEILING);
+		cub->cell_color = ft_parse_color(str);
 	else if (!ft_strncmp(splt[0], "F", ft_strlen(splt[0])))
-		return (FLOOR);
+		cub->floor_color = ft_parse_color(str);
 	else if (!ft_strncmp(splt[0], "NO", ft_strlen(splt[0])))
-		return (NORTH);
+		cub->texture[NORTH].path = ft_strdup(splt[1]);
 	else if (!ft_strncmp(splt[0], "SO", ft_strlen(splt[0])))
-		return (SOUTH);
+		cub->texture[SOUTH].path = ft_strdup(splt[1]);
 	else if (!ft_strncmp(splt[0], "WE", ft_strlen(splt[0])))
-		return (WEST);
+		cub->texture[WEST].path = ft_strdup(splt[1]);
 	else if (!ft_strncmp(splt[0], "EA", ft_strlen(splt[0])))
-		return (EAST);
-	return (-1);
+		cub->texture[EAST].path = ft_strdup(splt[1]);
+	ft_free((void *)splt);
 }
 
-int ft_store_texture(t_cub *cub, char *file)
+static int	ft_only_spaces(char *str)
 {
-	int		tex_index;
-	int		color;
+	int	i;
 
-	printf("TRACE 1\n");
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ' || str[i] != '\t' || str[i] != '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	ft_store_texture(t_cub *cub, char *file)
+{
+	printf("file: %s\n", file);
 	if (!file)
 		return (-1);
-	tex_index = ft_parse_textures(file);
-	printf("TRACE 2\n");
-	printf("====> %d\n", tex_index);
-	if (tex_index == -1)
-		return (-1);
-	if (tex_index < CEILING)
+	if (ft_only_spaces(file))
 	{
-		cub->texture[tex_index].path = ft_strdup(file);
+		free(file);
+		return (0);
 	}
-	else
-	{
-		color = ft_parse_color(file);
-		if (color == -1)
-			return (-1);
-		if (tex_index == CEILING)
-			cub->cell_color = color;
-		else if (tex_index == FLOOR)
-			cub->floor_color = color;
-	}
+	ft_parse_textures(file, cub);
 	return (0);
 }
+
 
 int ft_load_texture(t_cub *cub)
 {
@@ -90,18 +106,8 @@ int ft_load_texture(t_cub *cub)
 	int			i;
 
 	tex = cub->texture;
-	// Apaño hasta que se copien las texturas en el parseo
-	/*
-	tex[0].path = ft_strdup("textures/bookshelf_01.xpm");
-	tex[1].path = ft_strdup("textures/bookshelf_02.xpm");
-	tex[2].path = ft_strdup("textures/bookshelf_03.xpm");
-	tex[3].path = ft_strdup("textures/bookshelf.xpm");
-	tex[4].path = ft_strdup("textures/basalt_top.xpm");
-	tex[5].path = ft_strdup("textures/netherrack.xpm");
-	*/
-
 	i = 0;
-	while (i < NUM_TEXTURES)
+	while (i < 4)
 	{
 		tex[i].img = mlx_xpm_file_to_image(cub->mlx, \
 			tex[i].path, &tex[i].width, &tex[i].height);

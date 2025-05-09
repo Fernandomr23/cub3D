@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 19:27:01 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 21:37:20 by fvizcaya         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:34:02 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-int	ft_update_player(t_cub *cub)
-{
-	if (cub->keys.forward)
-		ft_move_player(cub, FORWARD);
-	if (cub->keys.backward)
-		ft_move_player(cub, BACKWARD);
-	if (cub->keys.left)
-		ft_move_player(cub, LEFT);
-	if (cub->keys.right)
-		ft_move_player(cub, RIGHT);
-	if (cub->keys.rotate_left)
-		ft_rotate_player(cub, LEFT);
-	if (cub->keys.rotate_right)
-		ft_rotate_player(cub, RIGHT);
-	return (0);
-}
 
 void	ft_put_pixel(t_cub *cub, int x, int y, int color)
 {
@@ -108,7 +91,7 @@ int ft_draw(t_cub *cub)
 	t_orientation	tx_index;
 
     if (ft_load_texture(cub) == -1)
-		return (printf("ERROR: fatal. Error loading texture file.\n"), -1);
+		exit(1);
     x = 0;
     while (x < WIDTH)
     {
