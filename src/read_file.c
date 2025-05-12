@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/09 21:00:28 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:53:10 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,11 @@ static int	ft_check_map(t_map	*map)
 	return (0);
 }
 
-static int	ft_create_map(t_cub *cub, int fd, int len, int in_map)
+static int	ft_create_map(t_cub *cub, int fd, int in_map)
 {
 	char	*line;
 	int		i;
 
-	cub->map->lines = malloc(sizeof(char *) * (len + 1));
-	if (!cub->map->lines)
-		return (ft_print_error("Error: malloc", NULL, 1));
 	line = get_next_line(fd);
 	i = 0;
 	while (line)
@@ -112,15 +109,12 @@ int	ft_read_file(char *str, t_cub *cub, t_map *map)
 	if (fd < 0)
 		exit(ft_print_error("Error opening file", str, 1));
 	map->height = ft_map_height(str);
-	ft_create_map(cub, fd, map->height, 0);
+	cub->map->lines = malloc(sizeof(char *) * (map->height + 1));
+	if (!cub->map->lines)
+		return (ft_print_error("Error: malloc", NULL, 1));
+	ft_create_map(cub, fd, 0);
 	map->width = ft_map_width(map);
 	close(fd);
-	int i = 0;
-	while (map->lines[i])
-	{
-		printf("line: .%s.\n", map->lines[i]);
-		i++;
-	}
 	if (!ft_check_lines(map->lines))
 		return (1);
 	ft_find_player(map->lines, &cub->player);

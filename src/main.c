@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/09 20:44:40 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:05:16 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,7 @@ static void	ft_free_cub(t_cub *cub)
 		free(cub->map->lines);
 		free(cub->map);
 	}
-	i = 0;
-	
-	while (i < 4)
-	{
-		if (cub->texture[i].img)
-			mlx_destroy_image(cub->mlx, cub->texture[i].img);
-		if (cub->texture[i].path)
-			free(cub->texture[i].path);
-		i++;
-	}
-
-	if (cub->img)
-		mlx_destroy_image(cub->mlx, cub->img);
-	if (cub->win)
-		mlx_destroy_window(cub->mlx, cub->win);
-	if (cub->mlx)
-		free(cub->mlx);
-	if (cub->title)
-		free(cub->title);
-	free(cub);
+	ft_close_win((void *)cub);
 }
 
 static t_map	*ft_init_map(void)
@@ -103,7 +84,6 @@ int	main(int argc, char **argv)
 	cub = ft_init(argv[1]);
 	if (ft_read_file(argv[1], cub, cub->map))
 	{
-		printf("LIBERATION\n");
 		ft_free_cub(cub);
 		return (1);
 	}

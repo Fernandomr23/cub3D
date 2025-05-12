@@ -6,11 +6,21 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 22:56:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 21:18:19 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:35:20 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+void	ft_put_pixel(t_cub *cub, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
+	dst = cub->data_addr + (y * cub->size_line + x * (cub->bpp / 8));
+	*(unsigned int *)dst = color;
+}
 
 int	ft_update_player(t_cub *cub)
 {

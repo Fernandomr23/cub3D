@@ -6,50 +6,66 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:27:55 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 22:22:07 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:11:49 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static void ft_draw_square(t_cub *cub, int x, int y, int color)
+static void	ft_draw_square(t_cub *cub, int x, int y, int color)
 {
-	int i, j;
-	for (i = 0; i < MINIMAP_CELL_SIZE; i++)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < MINIMAP_CELL_SIZE)
 	{
-		for (j = 0; j < MINIMAP_CELL_SIZE; j++)
+		j = 0;
+		while (j < MINIMAP_CELL_SIZE)
 		{
-			ft_put_pixel(cub,
-				x + j,
-				y + i,
-				color);
+			ft_put_pixel(cub, x + j, y + i, color);
+			j++;
 		}
+		i++;
 	}
 }
 
-void ft_minimap(t_cub *cub)
+static void	ft_draw_player(t_cub *cub)
 {
-    int x, y;
-    for (y = 0; y < cub->map->height; y++)
-    {
-        for (x = 0; x < cub->map->width; x++)
-        {
-            char c = cub->map->lines[y][x];
-            int color;
-            if (c != '1' && c != '0')
-                continue;
-            if (c == '1')
-                color = 0x000000; // Negro
-            else
-                color = 0xFFFFFF; // Gris
+	int	map_x;
+	int	map_y;
 
-            ft_draw_square(cub, x * MINIMAP_CELL_SIZE, y * MINIMAP_CELL_SIZE, color);
-        }
-    }
+	map_x = (int)cub->player.x_coord;
+	map_y = (int)cub->player.y_coord;
+	ft_draw_square(cub, map_x * MINIMAP_CELL_SIZE,
+		map_y * MINIMAP_CELL_SIZE, 0x00FF00);
+}
 
-    // Dibuja al jugador en su celda actual
-    int map_x = (int)cub->player.x_coord;
-    int map_y = (int)cub->player.y_coord;
+void	ft_minimap(t_cub *cub)
+{
+	char	c;
+	int		x;
+	int		y;
+	int		color;
 
-    ft_draw_square(cub, map_x * MINIMAP_CELL_SIZE, map_y * MINIMAP_CELL_SIZE, 0x00FF00); // Verde
+	y = 0;
+	while (y < cub->map->height)
+	{
+		x = 0;
+		while (x < cub->map->width)
+		{
+			c = cub->map->lines[y][x];
+			if (c == '1' || c == '0')
+			{
+				color = 0xFFFFFF;
+				if (c == '1')
+					color = 0x000000;
+				ft_draw_square(cub, x * MINIMAP_CELL_SIZE,
+					y * MINIMAP_CELL_SIZE, color);
+			}
+			x++;
+		}
+		y++;
+	}
+	ft_draw_player(cub);
 }

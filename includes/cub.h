@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvizcaya <fvizcaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/08 20:31:01 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:08:07 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 
 # define MOVEMENT_SPEED 0.1
 # define ROTATION_SPEED 0.1
-# define COLLISION_RADIUS 0.2
+# define C_R 0.3
 
 # define LEFT 1
 # define RIGHT 2
@@ -175,19 +175,12 @@ int		ft_print_error(char *msg, char *str, int i);
 // Raycasting
 
 void	ft_raycasting(t_cub *cub, int *x);
+int		is_walkable(t_map *map, double x, double y);
 
-/*
-void    ft_init_rcasting(t_cub *cub, int x);
-void    ft_dda_init(t_cub *cub);
-void    ft_do_raypath(t_cub *cub);
-void    ft_line_height(t_cub *cub);
-int		ft_raycasting(t_cub *cub);
-*/
 
 // Rendering
 
-void    ft_frame_rendering(t_cub *cub);
-void    ft_ray_rendering(t_cub *cub);
+int		ft_parse_color(char *str);
 
 // Draw pixels
 int 	ft_draw(t_cub *cub);

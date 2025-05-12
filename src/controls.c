@@ -6,44 +6,27 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:42:42 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/09 20:41:06 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:10:53 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static int	is_walkable(t_map *map, double x, double y)
-{
-	if (map->lines[(int)y][(int)x] != '0')
-		return (0);
-	if (map->lines[(int)(y - COLLISION_RADIUS)][(int)(x - COLLISION_RADIUS)] != '0')
-		return (0);
-	if (map->lines[(int)(y - COLLISION_RADIUS)][(int)(x + COLLISION_RADIUS)] != '0')
-		return (0);
-	if (map->lines[(int)(y + COLLISION_RADIUS)][(int)(x - COLLISION_RADIUS)] != '0')
-		return (0);
-	if (map->lines[(int)(y + COLLISION_RADIUS)][(int)(x + COLLISION_RADIUS)] != '0')
-		return (0);
-	return (1);
-}
-
 void	ft_rotate_player(t_cub *cub, int direction)
 {
-	double old_dir_x;
-	double old_plane_x;
-	double angle;
+	double	old_dir_x;
+	double	old_plane_x;
+	double	angle;
 
 	if (direction == LEFT)
 		angle = -ROTATION_SPEED;
 	else
 		angle = ROTATION_SPEED;
-
 	old_dir_x = cub->player.x_direction;
 	cub->player.x_direction = cub->player.x_direction * cos(angle)
 		- cub->player.y_direction * sin(angle);
 	cub->player.y_direction = old_dir_x * sin(angle)
 		+ cub->player.y_direction * cos(angle);
-
 	old_plane_x = cub->player.x_plane;
 	cub->player.x_plane = cub->player.x_plane * cos(angle)
 		- cub->player.y_plane * sin(angle);
@@ -51,60 +34,54 @@ void	ft_rotate_player(t_cub *cub, int direction)
 		+ cub->player.y_plane * cos(angle);
 }
 
-void	ft_move_player(t_cub *cub, int direction)
+static void	ft_move_x(t_cub *cub, int direction)
 {
 	double	new_x;
 	double	new_y;
-	double	move_speed = MOVEMENT_SPEED;
+	double	dir;
 
-	if (direction == FORWARD || direction == BACKWARD)
-	{
-		double dir = (direction == FORWARD) ? 1 : -1;
-		new_x = cub->player.x_coord + cub->player.x_direction * move_speed * dir;
-		new_y = cub->player.y_coord + cub->player.y_direction * move_speed * dir;
-
-		if (is_walkable(cub->map, new_x, cub->player.y_coord))
-			cub->player.x_coord = new_x;
-		if (is_walkable(cub->map, cub->player.x_coord, new_y))
-			cub->player.y_coord = new_y;
-	}
-	else if (direction == LEFT || direction == RIGHT)
-	{
-		double dir = (direction == LEFT) ? -1 : 1;
-		new_x = cub->player.x_coord + cub->player.x_plane * move_speed * dir;
-		new_y = cub->player.y_coord + cub->player.y_plane * move_speed * dir;
-
-		if (is_walkable(cub->map, new_x, cub->player.y_coord))
-			cub->player.x_coord = new_x;
-		if (is_walkable(cub->map, cub->player.x_coord, new_y))
-			cub->player.y_coord = new_y;
-	}
+	if (direction == FORWARD)
+		dir = 1;
+	else
+		dir = -1;
+	new_x = cub->player.x_coord + cub->player.x_direction
+		* MOVEMENT_SPEED * dir;
+	new_y = cub->player.y_coord + cub->player.y_direction
+		* MOVEMENT_SPEED * dir;
+	if (is_walkable(cub->map, new_x, cub->player.y_coord))
+		cub->player.x_coord = new_x;
+	if (is_walkable(cub->map, cub->player.x_coord, new_y))
+		cub->player.y_coord = new_y;
 }
 
-int	ft_close_win(void *params)
+static void	ft_move_y(t_cub *cub, int direction)
 {
-	t_cub	*data;
-	int		i;
+	double	new_x;
+	double	new_y;
+	double	dir;
 
-	data = (t_cub *)params;
-	if (data->img)
-		mlx_destroy_image(data->mlx, data->img);
-	i = 0;
-	while (i < 4)
+	if (direction == LEFT)
+		dir = -1;
+	else
+		dir = 1;
+	new_x = cub->player.x_coord + cub->player.x_plane
+		* MOVEMENT_SPEED * dir;
+	new_y = cub->player.y_coord + cub->player.y_plane
+		* MOVEMENT_SPEED * dir;
+	if (is_walkable(cub->map, new_x, cub->player.y_coord))
+		cub->player.x_coord = new_x;
+	if (is_walkable(cub->map, cub->player.x_coord, new_y))
+		cub->player.y_coord = new_y;
+}
+
+void	ft_move_player(t_cub *cub, int direction)
+{
+	if (direction == FORWARD || direction == BACKWARD)
+		ft_move_x(cub, direction);
+	else if (direction == LEFT || direction == RIGHT)
 	{
-		if (data->texture[i].img)
-			mlx_destroy_image(data->mlx, data->texture[i].img);
-		if (data->texture[i].path)
-			free(data->texture[i].path);
-		i++;
+		ft_move_y(cub, direction);
 	}
-	if (data->win)
-		mlx_destroy_window(data->mlx, data->win);
-	free(data->title);
-	free(data->mlx);
-	free(data);
-
-	exit(0);
 }
 
 void	ft_controls(t_cub *data)
