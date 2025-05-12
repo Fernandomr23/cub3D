@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 18:08:07 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:20:21 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@
 
 # define MINIMAP_CELL_SIZE 15
 
-
 /******************************************************************************
 *                           		Structures                                *
 ******************************************************************************/
@@ -64,7 +63,7 @@ typedef struct s_keys
 	int		rotate_right;
 }	t_keys;
 
-typedef	enum	e_orientation
+typedef enum e_orientation
 {
 	NORTH,
 	SOUTH,
@@ -152,52 +151,48 @@ typedef struct s_cub
 
 // Read_file
 
-int			ft_read_file(char *str, t_cub *cub, t_map *map);
-int			ft_check_lines(char	**lines);
-int			ft_map_line(char *str);
-int			ft_check_characters(char *str, int *c);
-int			ft_check_top_bottom(char *str);
-int			ft_check_middle(char *str, char *next, char *prev);
-int			ft_playable(char c);
-void		ft_init_player(t_player *player);
-void 		ft_find_player(char **lines, t_player *player);
-void		ft_free(void **ptr);
-
+int				ft_read_file(char *str, t_cub *cub, t_map *map);
+int				ft_check_lines(char	**lines);
+int				ft_map_line(char *str);
+int				ft_check_characters(char *str, int *c);
+int				ft_check_top_bottom(char *str);
+int				ft_check_middle(char *str, char *next, char *prev);
+int				ft_playable(char c);
+void			ft_init_player(t_player *player);
+void			ft_find_player(char **lines, t_player *player);
+void			ft_free(void **ptr);
 
 // Minilib
 
-void	ft_controls(t_cub *data);
-int		ft_key_press(int keycode, void *params);
-int 	ft_key_release(int keycode, void *params);
-int		ft_close_win(void *params);
-int		ft_print_error(char *msg, char *str, int i);
+void			ft_controls(t_cub *data);
+int				ft_key_press(int keycode, void *params);
+int				ft_key_release(int keycode, void *params);
+int				ft_close_win(void *params);
+int				ft_print_error(char *msg, char *str, int i);
 
 // Raycasting
 
-void	ft_raycasting(t_cub *cub, int *x);
-int		is_walkable(t_map *map, double x, double y);
+void			ft_raycasting(t_cub *cub, int *x);
+int				ft_is_walkable(t_map *map, double x, double y);
 
+// Rendering & Draw pixels
 
-// Rendering
-
-int		ft_parse_color(char *str);
-
-// Draw pixels
-int 	ft_draw(t_cub *cub);
-void	ft_put_pixel(t_cub *cub, int x, int y, int color);
-int		ft_update_player(t_cub *cub);
-void	ft_move_player(t_cub *cub, int direction);
-void 	ft_rotate_player(t_cub *cub, int direction);
+int				ft_parse_color(char *str);
+int				ft_draw(t_cub *cub);
+void			ft_put_pixel(t_cub *cub, int x, int y, int color);
+int				ft_update_player(t_cub *cub);
+void			ft_move_player(t_cub *cub, int direction);
+void			ft_rotate_player(t_cub *cub, int direction);
 
 // Textures
 
-int 			ft_load_texture(t_cub *cub);
+int				ft_load_texture(t_cub *cub);
 t_orientation	ft_set_texture_index(t_cub *cub);
 int				ft_get_color_from_texture(t_texture *texture, int x, int y);
 int				ft_store_texture(t_cub *cub, char *file);
 
 // Bonus
 
-void ft_minimap(t_cub *cub);
+void			ft_minimap(t_cub *cub);
 
 #endif

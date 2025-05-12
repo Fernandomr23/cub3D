@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:08:34 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 17:21:21 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:18:52 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_free(void **ptr)
 	free(ptr);
 }
 
-int	is_walkable(t_map *map, double x, double y)
+int	ft_is_walkable(t_map *map, double x, double y)
 {
 	if (map->lines[(int)y][(int)x] != '0')
 		return (0);

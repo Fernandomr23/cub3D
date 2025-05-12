@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:27:55 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 18:11:49 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:15:05 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_minimap(t_cub *cub)
 	while (y < cub->map->height)
 	{
 		x = 0;
-		while (x < cub->map->width)
+		while (x < ft_strlen(cub->map->lines[y]))
 		{
 			c = cub->map->lines[y][x];
 			if (c == '1' || c == '0')

@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:42:42 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 17:10:53 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:19:18 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ static void	ft_move_x(t_cub *cub, int direction)
 		* MOVEMENT_SPEED * dir;
 	new_y = cub->player.y_coord + cub->player.y_direction
 		* MOVEMENT_SPEED * dir;
-	if (is_walkable(cub->map, new_x, cub->player.y_coord))
+	if (ft_is_walkable(cub->map, new_x, cub->player.y_coord))
 		cub->player.x_coord = new_x;
-	if (is_walkable(cub->map, cub->player.x_coord, new_y))
+	if (ft_is_walkable(cub->map, cub->player.x_coord, new_y))
 		cub->player.y_coord = new_y;
 }
 
@@ -68,9 +68,9 @@ static void	ft_move_y(t_cub *cub, int direction)
 		* MOVEMENT_SPEED * dir;
 	new_y = cub->player.y_coord + cub->player.y_plane
 		* MOVEMENT_SPEED * dir;
-	if (is_walkable(cub->map, new_x, cub->player.y_coord))
+	if (ft_is_walkable(cub->map, new_x, cub->player.y_coord))
 		cub->player.x_coord = new_x;
-	if (is_walkable(cub->map, cub->player.x_coord, new_y))
+	if (ft_is_walkable(cub->map, cub->player.x_coord, new_y))
 		cub->player.y_coord = new_y;
 }
 
