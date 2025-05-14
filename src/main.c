@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/14 18:39:52 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:07:14 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ static t_cub	*ft_init(char *str)
 	cub->map = ft_init_map();
 	ft_init_movements(cub);
 	ft_init_textures(cub);
+	cub->floor_color = FLOOR_COLOR;
+	cub->cell_color = CEILING_COLOR;
 	return (cub);
 }
 

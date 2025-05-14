@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/14 17:40:39 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:30:17 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,22 @@ static int	ft_create_map(t_cub *cub, int fd, int in_map)
 	line = get_next_line(fd);
 	i = 0;
 	printf("Height: %d\n", cub->map->height);
-	while (line && i < cub->map->height)
+	while (line)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (in_map == 0 && ft_map_line(line))
 			in_map = 1;
-		if (in_map)
+		if (in_map && i < cub->map->height)
 			cub->map->lines[i++] = ft_strdup(line);
 		else
 		{
-			if (ft_store_texture(cub, line) == -1)
-				return (ft_print_error("Error: invalid texture", line, 1));
+			if (i >= cub->map->height)
+			{
+				free(line);
+				return (ft_print_error("Error: lines after map", NULL, 1));
+			}
+			ft_store_texture(cub, line);
 		}
 		free(line);
 		line = get_next_line(fd);
@@ -114,7 +118,8 @@ int	ft_read_file(char *str, t_cub *cub, t_map *map)
 	cub->map->lines = malloc(sizeof(char *) * (map->height + 1));
 	if (!cub->map->lines)
 		return (ft_print_error("Error: malloc", NULL, 1));
-	ft_create_map(cub, fd, 0);
+	if (ft_create_map(cub, fd, 0))
+		return (1);
 	map->width = ft_map_width(map);
 	close(fd);
 	if (!ft_check_lines(map->lines))

@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/14 18:31:45 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:06:24 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define HEIGHT 1080
 
 # define NUM_TEXTURES 4
+# define FLOOR_COLOR 0x000000
+# define CEILING_COLOR 0xFFFFFF
 # define ESCAPE 65307
 # define KEY_ARROW_L 65361
 # define KEY_ARROW_R 65363
@@ -69,8 +71,6 @@ typedef enum e_orientation
 	SOUTH,
 	EAST,
 	WEST,
-	CEILING,
-	FLOOR
 }				t_orientation;
 typedef struct s_map
 {

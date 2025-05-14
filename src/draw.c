@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 19:27:01 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 17:57:52 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:03:27 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ static void	ft_draw_walls(t_cub *cub, t_orientation index, int x)
 static void	ft_draw_ceiling(t_cub *cub, int x)
 {
 	int			y;
-	t_texture	*tex;
+	// t_texture	*tex;
 
-	tex = cub->texture;
+	// tex = cub->texture;
 	y = 0;
 	while (y < cub->ray.draw_start)
 	{
-		tex[CEILING].text_x = (int)(x * tex[CEILING].width / WIDTH);
-		tex[CEILING].text_y = (int)(y * tex[CEILING].height / HEIGHT);
+		// tex[CEILING].text_x = (int)(x * tex[CEILING].width / WIDTH);
+		// tex[CEILING].text_y = (int)(y * tex[CEILING].height / HEIGHT);
 		ft_put_pixel(cub, x, y, cub->cell_color);
 		y++;
 	}
@@ -70,9 +70,9 @@ static void	ft_draw_ceiling(t_cub *cub, int x)
 static void	ft_draw_floor(t_cub *cub, int x)
 {
 	int			y;
-	t_texture	*tex;
+	// t_texture	*tex;
 
-	tex = cub->texture;
+	// tex = cub->texture;
 	y = cub->ray.draw_end;
 	if (y < 0)
 		y = 0;
@@ -80,8 +80,8 @@ static void	ft_draw_floor(t_cub *cub, int x)
 		cub->ray.draw_end = HEIGHT;
 	while (y < HEIGHT)
 	{
-		tex[FLOOR].text_x = (int)(x * tex[FLOOR].width / WIDTH);
-		tex[FLOOR].text_y = (int)(y * tex[FLOOR].height / HEIGHT);
+		// tex[FLOOR].text_x = (int)(x * tex[FLOOR].width / WIDTH);
+		// tex[FLOOR].text_y = (int)(y * tex[FLOOR].height / HEIGHT);
 		ft_put_pixel(cub, x, y, cub->floor_color);
 		y++;
 	}
