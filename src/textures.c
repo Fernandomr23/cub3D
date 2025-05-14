@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:41:29 by fvizcaya          #+#    #+#             */
-/*   Updated: 2025/05/12 17:24:22 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:31:20 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	ft_convert_color(char **splt, int *rgb, int i)
 		trim = ft_strtrim(splt[i + j], " ");
 		if (!trim)
 		{
-			ft_free((void **) splt);
+			ft_free(splt);
 			return (-1);
 		}
 		rgb[j] = ft_atoi(trim);
@@ -75,12 +75,12 @@ int	ft_parse_color(char *str)
 	splt = ft_split(str, c);
 	if (!splt || !splt[0] || !splt[1] || !splt[2])
 	{
-		ft_free((void **) splt);
+		ft_free(splt);
 		return (-1);
 	}
 	if (ft_convert_color(splt, rgb, i) == -1)
 		return (-1);
-	ft_free((void **) splt);
+	ft_free(splt);
 	return (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:58:17 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 18:20:21 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:31:45 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 
-# define NUM_TEXTURES 6
+# define NUM_TEXTURES 4
 # define ESCAPE 65307
 # define KEY_ARROW_L 65361
 # define KEY_ARROW_R 65363
@@ -160,7 +160,7 @@ int				ft_check_middle(char *str, char *next, char *prev);
 int				ft_playable(char c);
 void			ft_init_player(t_player *player);
 void			ft_find_player(char **lines, t_player *player);
-void			ft_free(void **ptr);
+void			ft_free(char **ptr);
 
 // Minilib
 

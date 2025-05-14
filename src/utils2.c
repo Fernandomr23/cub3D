@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:08:34 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 18:18:52 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:33:22 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_playable(char c)
 	return (0);
 }
 
-void	ft_free(void **ptr)
+void	ft_free(char **ptr)
 {
 	char	**aux_ptr;
 	int		i;
@@ -93,6 +93,7 @@ int	ft_close_win(void *params)
 	if (data->win)
 		mlx_destroy_window(data->mlx, data->win);
 	free(data->title);
+	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	free(data);
 	exit(0);

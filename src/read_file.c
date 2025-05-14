@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:11:19 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 16:53:10 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:40:39 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static int	ft_check_map(t_map	*map)
 
 	i = 0;
 	lines = map->lines;
-	while (lines[i])
+	while (i < map->height)
 	{
 		if (i == 0 || i == map->height - 1)
 		{
 			if (ft_check_top_bottom(lines[i]) == -1)
-				return (ft_print_error("Error: incorrect file", lines[i], 1));
+				return (ft_print_error("Error: incorrect file ", lines[i], 1));
 		}
 		else
 			if (ft_check_middle(lines[i], lines[i + 1], lines[i - 1]) == -1)
@@ -41,7 +41,8 @@ static int	ft_create_map(t_cub *cub, int fd, int in_map)
 
 	line = get_next_line(fd);
 	i = 0;
-	while (line)
+	printf("Height: %d\n", cub->map->height);
+	while (line && i < cub->map->height)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
@@ -58,6 +59,7 @@ static int	ft_create_map(t_cub *cub, int fd, int in_map)
 		line = get_next_line(fd);
 	}
 	free(line);
+	printf("Numer of lines: %d\n", i);
 	cub->map->lines[i] = NULL;
 	return (0);
 }

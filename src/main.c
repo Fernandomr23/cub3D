@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:57:38 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 18:05:16 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:39:52 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,38 @@ static t_map	*ft_init_map(void)
 	return (map);
 }
 
+void	ft_init_movements(t_cub *cub)
+{
+	cub->keys.forward = 0;
+	cub->keys.backward = 0;
+	cub->keys.left = 0;
+	cub->keys.right = 0;
+	cub->keys.rotate_left = 0;
+	cub->keys.rotate_right = 0;
+}
+
+void	ft_init_textures(t_cub *cub)
+{
+	int	i;
+
+	i = 0;
+	while (i < NUM_TEXTURES)
+	{
+		cub->texture[i].img = NULL;
+		cub->texture[i].data_addr = NULL;
+		cub->texture[i].path = NULL;
+		cub->texture[i].width = 0;
+		cub->texture[i].height = 0;
+		cub->texture[i].bpp = 0;
+		cub->texture[i].size_line = 0;
+		cub->texture[i].endian = 0;
+		cub->texture[i].text_x = 0;
+		cub->texture[i].text_y = 0;
+		cub->texture[i].wall_x = 0;
+		i++;
+	}
+}
+
 static t_cub	*ft_init(char *str)
 {
 	t_cub	*cub;
@@ -60,6 +92,8 @@ static t_cub	*ft_init(char *str)
 	cub->data_addr = mlx_get_data_addr(cub->img, &cub->bpp,
 			&cub->size_line, &cub->endian);
 	cub->map = ft_init_map();
+	ft_init_movements(cub);
+	ft_init_textures(cub);
 	return (cub);
 }
 
@@ -78,9 +112,9 @@ int	main(int argc, char **argv)
 	t_cub	*cub;
 
 	if (argc != 2)
-		return (ft_print_error("Incorrect number of args", NULL, 1));
+		return (ft_print_error("Error: Incorrect number of args", NULL, 1));
 	if (ft_check_args(argv[1]))
-		return (ft_print_error("Incorrect file extension:", argv[1], 1));
+		return (ft_print_error("Error: Incorrect file extension:", argv[1], 1));
 	cub = ft_init(argv[1]);
 	if (ft_read_file(argv[1], cub, cub->map))
 	{

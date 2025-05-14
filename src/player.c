@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 22:56:33 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 17:35:20 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:03:23 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_check_lines(char	**lines)
 	while (lines[i])
 	{
 		if (!ft_check_characters(lines[i], &character))
-			return (0);
+			return (ft_print_error("Error: Map characters / order", NULL, 0));
 		i++;
 	}
 	if (character == 0)

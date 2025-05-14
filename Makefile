@@ -7,7 +7,7 @@ SRC_DIR = src
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes -fsanitize=leak
+CFLAGS = -Wall -Wextra -Werror -Iincludes #-fsanitize=leak
 
 RM = rm -f
 

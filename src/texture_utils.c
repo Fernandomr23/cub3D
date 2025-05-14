@@ -6,7 +6,7 @@
 /*   By: fmorenil <fmorenil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:14:03 by fmorenil          #+#    #+#             */
-/*   Updated: 2025/05/12 17:18:02 by fmorenil         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:31:07 by fmorenil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_parse_textures(char *str, t_cub *cub)
 	splt = ft_split(str, ' ');
 	if ((*str && *str == '\n') || !splt || !splt[0] || !splt[1])
 	{
-		ft_free((void **) splt);
+		ft_free(splt);
 		return ;
 	}
 	if (!ft_strncmp(splt[0], "C", ft_strlen(splt[0])))
@@ -34,7 +34,7 @@ static void	ft_parse_textures(char *str, t_cub *cub)
 		cub->texture[WEST].path = ft_strdup(splt[1]);
 	else if (!ft_strncmp(splt[0], "EA", ft_strlen(splt[0])))
 		cub->texture[EAST].path = ft_strdup(splt[1]);
-	ft_free((void **)splt);
+	ft_free(splt);
 }
 
 static int	ft_only_spaces(char *str)
@@ -69,6 +69,8 @@ int	ft_load_texture(t_cub *cub)
 	i = 0;
 	while (i < 4)
 	{
+		if (!tex[i].path)
+			return (printf("ERROR: texture path is NULL.\n"), -1);
 		tex[i].img = mlx_xpm_file_to_image(cub->mlx, \
 			tex[i].path, &tex[i].width, &tex[i].height);
 		if (!tex[i].img)
